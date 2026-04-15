@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>관리자 페이지 — 삼성생명 채용</title>
+<script>
+// 이 파일의 SITE_DATA를 수정하면 사용자 페이지에 바로 반영됩니다.
+// 관리자 페이지에서 저장하면 localStorage에 우선 저장됩니다.
+
+const SITE_DATA_DEFAULT = {
+  nav: [
+    {name:"직군소개", url:"#jobs"},
+    {name:"오프라인행사", url:"#offline"},
+    {name:"온라인행사", url:"#online"},
+    {name:"회사소개", url:"#business"},
+    {name:"FAQ", url:"#faq"},
+    {name:"상담카드 작성하기", url:"https://www.careertalk.kr/event-pin/8538984", isCta:true}
+  ],
+  hero: {
+    slogan: "더 나은 삶을 만드는 일에, 더 나은 내가 있으니까",
+    title: "2026 상반기 삼성생명 신입사원 채용",
+    period: "3월10일(화)~3월17일(화)",
+    btnText: "▶ 지금 바로 지원하기 ◀",
+    btnUrl: "https://www.samsungcareers.com/hr/?no=21884"
+  },
+  info: {
+    jobs: "영업관리, 상품계리, 자산운용, 투자자산관리,\n디지털 서비스 기획 및 운영, IT 서비스 기획 및 운영, 보험지원",
+    qual: "2026년 8월 이전 졸업 또는 졸업 예정인 분\n*OPIc IM 또는 토익스피킹 130점 이상\n (단, 영업관리직군은 OPIc IL 또는 토익스피킹 110점 이상)\n*병역필 또는 면제자로, 해외여행에 결격사유가 없는 분\n*IT의 경우 전산/컴퓨터 계열 전공자에 한하여 지원 가능",
+    method: "삼성커리어스 지원\n(www.samsungcareers.com)",
+    applyUrl: "https://www.samsungcareers.com/hr/?no=21884"
+  },
+  process: ["지원서\n접수","직무적합성\n평가","직무적성검사\n(GSAT)","면접\n전형","건강검진"],
+  jobs: [
+    {name:"영업관리",  emoji:"💼", videoUrl:"https://youtu.be/AQA6KHBIHcc?si=XM7uEiJOzdaNS3s7"},
+    {name:"상품계리",  emoji:"📊", videoUrl:"https://youtu.be/9iDEHEGEpXQ?si=A40k1buugNCamobS"},
+    {name:"자산운용",  emoji:"💹", videoUrl:"https://youtu.be/i4xGPe_Pu1I?si=_0PbuF9Oh3tXCpJD"},
+    {name:"투자자산관리",emoji:"📈",videoUrl:"https://youtu.be/6_22VlJdnME?si=ro9xjyyJnXXh6KbU"},
+    {name:"디지털",   emoji:"💡", videoUrl:"https://youtu.be/VkuNiWvQ0Ek"},
+    {name:"IT",       emoji:"💻", videoUrl:"https://youtu.be/5_8N3mMQO0Y?si=GRiAYs8W-o0ov0hp"},
+    {name:"보험지원", emoji:"🛡️", videoUrl:"https://youtu.be/4AFNDia0LBU?si=JOGyaWfXA2gJA_20"}
+  ],
+  campus: {
+    subtitle: "영업관리 꿈나무를 위한",
+    title: "찾아가는 캠퍼스 채용설명회",
+    notice: "참석자 전원에게 맛있는 점심을 제공합니다",
+    target: "기졸업자 혹은 27년 이내 졸업예정자 중 영업관리 직군에 관심있는 모든 분들",
+    applyUrl: "https://forms.gle/Bk2qJJbQLf4F1nrk7",
+    events: [
+      {date:"03 .09", items:[
+        {school:"충북대학교", location:"중앙도서관 2관 5층 세미나실", time:"12:00-13:00"},
+        {school:"전북대학교", location:"진수당 2층 글로컬홀", time:"12:00-13:00"}
+      ]},
+      {date:"03 .10", items:[
+        {school:"충남대학교", location:"인재개발원 2층 시너지실", time:"12:00-13:00"},
+        {school:"전남대학교", location:"경영대 3층 경영대학 CBA홀", time:"12:00-13:00"}
+      ]}
+    ]
+  },
+  offline: {
+    subtitle: "모든 직군 현직자와 함께하는!",
+    title: "오프라인 채용 상담 일정",
+    weeks: [
+      {dates:"03.02 ~ 03.06", schools:[
+        {name:"고려대", location:"SK미래관 1층 로비"},
+        {name:"연세대", location:"공학원 1층 로비 아트리움"},
+        {name:"서강대", location:"체육관"},
+        {name:"한양대", location:"HIT관 1·6층"},
+        {name:"서울대", location:"유희진학술정보관(300동) 2층"},
+        {name:"성균관대(자연)", location:"삼성학술정보관 4층"},
+        {name:"카이스트", location:"류근철 스포츠 콤플렉스"}
+      ]},
+      {dates:"03.09 ~ 03.13", schools:[
+        {name:"이화여대", location:"ECC 다목적홀, 이삼봉홀"},
+        {name:"연세대", location:"학생회관 2층"},
+        {name:"고려대", location:"현대자동차경영관 1층 로비"},
+        {name:"서울시립대", location:"학생회관 2층"},
+        {name:"중앙대", location:"310관 2층 로비"},
+        {name:"서강대", location:"BW관 3층 310호"},
+        {name:"서울대", location:"롯데국제교육관 Job Café"},
+        {name:"한양대", location:"학생회관 크루라운지"},
+        {name:"한국외대", location:"채용상담실"},
+        {name:"성균관대(인문)", location:"경영관 1층 리크루팅 3번 부스"},
+        {name:"경희대(서울)", location:"경영대 오비스홀 3층 로비"},
+        {name:"경북대", location:"복지관 4층 스터디룸4"},
+        {name:"부산대", location:"문창회관 2층 문창1실"},
+        {name:"전남대", location:"경영대 1호관 1층"},
+        {name:"전북대", location:"진수당 1층 스터디룸 4번"},
+        {name:"충남대", location:"인재개발원 2층 잡카페 1번 부스"},
+        {name:"충북대", location:"중앙도서관 1관 상담실"}
+      ]}
+    ]
+  },
+  online: {
+    subtitle: "언제 어디서나 누구나 들을 수 있는",
+    title: "온라인 채용 설명회",
+    desc: "삼성생명 인사팀 채용담당자가 회사소개부터 채용 전형 안내까지 신입사원 채용의 모든 것을 설명해드립니다.\n모든 신청자분들께 설명회 영상 링크를 보내드립니다.",
+    date: "3월 10일 화요일 OPEN",
+    btnText: "설명회 신청 바로가기",
+    url: "https://forms.gle/R7X4xV3LNMVSgdib6"
+  },
+  kakao: {
+    subtitle: "누구나 참여할 수 있는",
+    title: "카카오톡 채용 상담회",
+    desc: "각 직군별 현직자가 오픈카톡 채용 상담회를 통해 답변해드립니다. 채용 과정은 어떻게 되는지, 하루 업무는 어떤지, 회사 분위기는 어떤지 현직자에게 물어보고 싶은 이야기들은 여기서 직접 질문해주세요.",
+    date: "3.13 (금) 13:30 - 17:00",
+    url: "https://forms.gle/EdV89h7iA8ZZExEp9",
+    schedule: [
+      {time:"13:30 - 15:00", jobs:"영업관리, 상품계리, 보험지원"},
+      {time:"15:30 - 17:00", jobs:"자산운용, 투자자산관리, 디지털, IT"}
+    ]
+  },
+  business: [
+    {title:"상품개발ㅣ상품판매ㅣ고객관리", desc:"고객 중심의 상품 다각화 및 서비스 개발을 통해 다양한 니즈에 맞는 솔루션을 제공합니다.", imgUrl:"https://www.samsunglife-recruit.com/assets/images/sec07_thumb_01.jpg"},
+    {title:"자산운용ㅣ해외사업", desc:"자산운용을 수익창출의 핵심 축으로 지속 확대하며 해외사업도 적극적으로 확장하고 있습니다.", imgUrl:"https://www.samsunglife-recruit.com/assets/images/sec07_thumb_02.jpg"},
+    {title:"디지털혁신ㅣ신사업", desc:"전체 사업부문의 디지털 혁신과 헬스케어 플랫폼 구축 등 신성장사업을 지속 추진합니다.", imgUrl:"https://www.samsunglife-recruit.com/assets/images/sec07_thumb_03.jpg"}
+  ],
+  welfare: {
+    imgUrl: "https://www.samsunglife-recruit.com/assets/images/sec08_benefit.png",
+    cultureImgUrl: "https://www.samsunglife-recruit.com/assets/images/sec09_culture.png",
+    reviewUrl: "javascript:void(0);",
+    cats: [
+      {name:"여가 지원", items:"복지포인트, 전국 유명콘도, 도서구입/구독, 캐리비안베이 입장권"},
+      {name:"글로벌", items:"회화평가 응시료지원, 회화 강의 지원, 지역전문가/MBA, 글로벌 주니어 연수"},
+      {name:"자기계발", items:"입문 교육 SVP JSL, 선택형 지식&스킬 필수교육, 본부실별 직무교육과정, 자율선택형 신청 교육과정, 모바일 기반 상시 학습플랫폼"}
+    ]
+  },
+  videos: [
+    {title:"신입사원 연수", url:"https://youtu.be/3u0NxP9qnek", thumb:"https://www.samsunglife-recruit.com/assets/images/movie_thumb_01.jpg"},
+    {title:"생명인 스토리", url:"https://youtube.com/shorts/-cF-FQfxHJc", thumb:"https://www.samsunglife-recruit.com/assets/images/movie_thumb_02.jpg"},
+    {title:"삼성생명 대표 CSR", url:"https://youtu.be/EQfZMzKy89s", thumb:"https://www.samsunglife-recruit.com/assets/images/movie_thumb_03.jpg"}
+  ],
+  faq: {
+    email: "recruit.sli@samsung.com",
+    categories: [
+      {name:"지원 자격", items:[
+        {q:"학력, 성별 및 연령 제한이 있나요?", a:"삼성생명 신입사원 공개채용에는 학력, 성별, 연령에 따른 제한이 없습니다."},
+        {q:"별도의 경력이 없는데 지원이 가능한가요?", a:"경력과 무관하게 직무 관련 역량이 있다고 판단될 경우 지원하실 수 있습니다."},
+        {q:"재지원 시 불이익이 있나요?", a:"재지원 여부는 전형 과정에서 전혀 고려되지 않으며, 따라서 재지원 시 불이익은 없습니다."},
+        {q:"영어권 소재 대학교 졸업자의 경우 영어회화 성적 제출이 면제되나요?", a:"영어권 국가에서 학사 이상 학위를 취득하셨거나 취득이 예정되어 있으신 분의 경우 영어회화 자격 면제 대상입니다."},
+        {q:"현재 수료 상태이거나 졸업을 유예한 상태인데, 지원이 가능한가요?", a:"네, 2026년 8월 졸업이 가능하시다면 지원 가능합니다."}
+      ]},
+      {name:"지원서 작성", items:[
+        {q:"삼성 타 관계사 공고와 중복 지원이 가능한가요?", a:"삼성 관계사 간 중복 지원은 불가합니다. 현재 삼성커리어스에서 진행 중인 공고 중 한 개의 공고에만 지원하실 수 있습니다."},
+        {q:"학교명/전공명이 검색되지 않습니다.", a:"검색란 하단의 '기타검색'을 누르신 후 가장 유사한 대분류를 선택해 주세요."},
+        {q:"회화 성적의 유효기간 기준은 어떻게 되나요?", a:"지원서 접수 마감일을 기준으로 최근 2년 이내에 취득한 성적만 유효하게 인정됩니다."}
+      ]},
+      {name:"전형 및 일정", items:[
+        {q:"전형 기간과 상세 일정은 어떻게 되나요?", a:"3월 중 지원서 접수를 시작으로, 3월 말 직무적합성평가, 4월 GSAT, 5월 면접, 6월 건강검진을 거쳐 7월 입사 예정입니다. 세부 일정은 변동될 수 있습니다."},
+        {q:"직무적합성평가는 무엇을 평가하나요?", a:"지원자님이 작성해 주신 지원서를 바탕으로 직무적합성을 종합적으로 평가합니다. 이수 과목과 성적, 지원 동기와 성장배경 등의 에세이를 세밀하게 검토합니다."},
+        {q:"면접은 어떻게 진행되나요?", a:"임원 면접과 직무 역량 면접, 총 2개를 하루에 모두 보는 '원데이 면접'으로 진행됩니다. 면접 방식은 다대일 형식입니다."},
+        {q:"전형별 결과 확인은 어디서 하나요?", a:"전형별 결과는 삼성커리어스 홈페이지(www.samsungcareers.com)에서 개별적으로 확인 가능합니다."}
+      ]}
+    ]
+  },
+  gift: {
+    desc: "삼성생명 리크루터와 오프라인에서 상담받고\n상담카드 작성해주시면\n스타벅스 5천원권과 캐릭터 볼펜 / 메모패드를 드립니다.",
+    btnText: "상담카드 작성하기",
+    url: "https://www.careertalk.kr/event-pin/8538984",
+    items: [{name:"스타벅스 5천원권"},{name:"캐릭터 볼펜"},{name:"캐릭터 메모패드"}]
+  },
+  jobPopups: [
+    {name:"영업관리", tags:"#업계선도 #영업전략",
+     desc:"영업관리 직군은 고객의 니즈에 맞게 개발된 보험 상품이 다양한 채널을 통해 판매될 수 있도록 지원하는 업무를 담당합니다.",
+     duties:[
+       {title:"지점장", desc:"지점의 성과 창출을 위해 컨설턴트 활동을 지원하고 영업전략 수립을 통한 지점운영을 총괄"},
+       {title:"FP/FO", desc:"부유층 공략 플랫폼을 통한 전문적 재무/세무 컨설팅을 활용하여 VIP마케팅 및 고액계약체결 지원"},
+       {title:"법인RM", desc:"퇴직연금, 단체보험 등의 판매와 보유계약 관련 보전 업무 대응을 위한 B2B 영업"},
+       {title:"방카BM", desc:"은행 등 제휴 금융기관을 관리하는 책임자로서 시장과 조직의 영업 전략 수립"},
+       {title:"영업지원", desc:"인사·노무·총무·행사 등 영업을 위한 최적의 인프라를 구축하고 조직 목표 달성 지원"},
+       {title:"채널기획", desc:"다양한 상품 판매 채널(FC, GFC, GA, BA 등)에 대한 제도와 전략 기획"}
+     ]},
+    {name:"상품계리", tags:"#수리통계 #분석및예측",
+     desc:"보험회사의 건전성 및 보험금 지급 능력 확보를 위해 불확실한 미래를 합리적으로 예측, 분석 및 평가하는 업무를 담당합니다.",
+     duties:[
+       {title:"상품개발", desc:"상품 정책 수립, 시장조사 및 분석, 신상품 개발, 판매 성과분석"},
+       {title:"계리", desc:"책임준비금 산출 및 결산손익 분석, 현금흐름 가정산출 및 모델링"},
+       {title:"RM", desc:"상품 수익성 및 리스크 점검, 사차효율 관리, 전사 리스크 관리"}
+     ]},
+    {name:"자산운용", tags:"#자산규모 #안정성",
+     desc:"보험영업을 통해 들어온 자금을 속성에 맞게 투자/관리하는 업무를 담당합니다. 체계적이고 안정적인 자산운용을 추구합니다.",
+     duties:[
+       {title:"운용사업기획", desc:"중장기 운용업 성장 전략 수립, ALM 목표 및 자금/손익 관리, 글로벌 사업 추진"},
+       {title:"심사", desc:"신용리스크 분석 및 한도관리, 크레딧 포트폴리오 관리 및 활용"},
+       {title:"포트폴리오 매니저", desc:"포트폴리오 전략 및 운용 가이드라인 수립, 투자손익 및 유동성 관리, 신규투자 추진"}
+     ]},
+    {name:"투자자산관리", tags:"#자산이해 #회계지식",
+     desc:"삼성생명에서 투자하는 다양한 금융상품 자산에 대한 거래 결제, 회계처리, 사후관리 등 백오피스 전반의 지원 업무를 담당합니다.",
+     duties:[
+       {title:"투자지원", desc:"운용전략 수립 지원 및 전략 조정, 투자자금 결제 및 입출금 관리"},
+       {title:"투자컴플라이언스", desc:"금융정책 조사 및 분석, 금융당국 규제대응 및 인허가, 대외보고 및 공시"}
+     ]},
+    {name:"디지털", tags:"#AI #플랫폼 #혁신",
+     desc:"AI, 데이터, 플랫폼을 통해 고객에게는 더 나은 경험을, 회사에는 데이터 기반의 의사결정을 제공하여 비즈니스 모델을 혁신합니다.",
+     duties:[
+       {title:"기획", desc:"AI/디지털 경영 전략 기획, AI/디지털 과제 발굴 및 관리, 최신 기술 센싱·확보·검증"},
+       {title:"디지털 마케팅", desc:"고객행동 데이터 분석 및 경험 설계, 타겟 맞춤형 디지털 마케팅 수행"},
+       {title:"채널 운영", desc:"디지털 서비스 운영, 채널 데이터 분석을 통한 인사이트 도출"}
+     ]},
+    {name:"IT", tags:"#개발 #인프라운영 #보안",
+     desc:"영업 시스템과 사내 업무 시스템의 백엔드를 직접 개발하고, 업무 시스템을 안정적으로 운영하며, IT 인프라를 관리합니다.",
+     duties:[
+       {title:"개발", desc:"디지털 채널/시스템 설계 및 백엔드 개발, 퍼블리싱 및 웹 접근성 관리"},
+       {title:"인프라 운영", desc:"IT 인프라 운영 전략 수립, 운영 안정성 및 효율성 확보, 비상대응 절차 관리"},
+       {title:"IT 보안", desc:"보안정책 및 가이드라인 수립, 보안시스템 운영 및 관리, 정보보호 관리체계 운영"}
+     ]},
+    {name:"보험지원", tags:"#보험프로세스 #데이터분석 #심사",
+     desc:"보험 가입 단계부터 계약유지, 보험금 지급에 이르기까지 각 접점에서 관련 업무를 수행합니다.",
+     duties:[
+       {title:"보험계약 관리", desc:"보험거래 서비스 기획, 디지털 기반 보험거래 프로세스 기획 및 운영, 보유계약 분석 및 관리"},
+       {title:"보험지급 관리", desc:"보험금 심사 및 보험사기 징후 탐지, 일반 제지급 및 프로세스 관리, 고객 접점채널 업무처리 지원"}
+     ]}
+  ],
+  interviewPopups: [
+    {name:"영업관리", qaList:[
+      {q:"영업관리 직군은 어떤 일을 하나요?", a:"FP로 일하면서 고객의 자산을 체계적으로 관리하고 재무 설계, 상속 및 증여 컨설팅 등 종합적인 금융 솔루션을 제공합니다. 지점장은 컨설턴트들과 함께 영업 코칭 및 지점 운영 업무를 담당합니다."},
+      {q:"필요한 역량은 무엇인가요?", a:"전문적 금융 지식보다 더 중요한 것은 바로 관계입니다. 고객과의 신뢰를 구축하고 장기적인 관계를 형성하기 위해 친근한 접근 방식과 유연한 커뮤니케이션 능력이 필수적입니다."},
+      {q:"왜 삼성생명을 선택하셨나요?", a:"보험은 필수재라는 가치관을 가지게 되었고, 보험을 가장 잘하면서 동시에 안정적인 삼성생명에 지원하였습니다."}
+    ]},
+    {name:"상품계리", qaList:[
+      {q:"상품계리 직군은 어떤 일을 하나요?", a:"상품팀은 상품기획부터 개발, 시스템 반영까지 여러 업무를 담당합니다. 시장 상황 및 규제에 맞추어 상품 개발/개정안을 만들고 유관부서와 소통하며 구체적인 상품 방향성을 정합니다."},
+      {q:"필요한 역량은 무엇인가요?", a:"기본적인 수리감각이 필수적이며, 꼼꼼함과 커뮤니케이션 능력도 중요합니다."},
+      {q:"왜 삼성생명을 선택하셨나요?", a:"생명보험업계 1위인 삼성생명을 선택한 후 업무가 세분화되어 있다는 점이 가장 큰 장점이라고 느끼고 있습니다."}
+    ]},
+    {name:"자산운용", qaList:[
+      {q:"자산운용 직군은 어떤 일을 하나요?", a:"변액보험으로 유입된 자금을 운용하거나, 전략투자사업부에서 프로젝트 금융 운용 및 매크로 하우스뷰 관련 업무를 수행합니다."},
+      {q:"필요한 역량은 무엇인가요?", a:"경제와 금융 시장에 대한 관심이 중요하며, 다양한 금융 상품 관련 리스크와 가치를 분석해보는 것이 도움이 됩니다."},
+      {q:"왜 삼성생명을 선택하셨나요?", a:"국내 최대의 자산 규모를 가진 자산운용 하우스로서 다양한 자산군을 경험할 수 있다는 것이 가장 큰 장점입니다."}
+    ]},
+    {name:"투자자산관리", qaList:[
+      {q:"투자자산관리 직군은 어떤 일을 하나요?", a:"운용 부서에서 새로운 자산을 매입하면 해당 자산의 조건을 검증한 후 결제합니다. 이후 자산평가, 파생상품을 통한 위험회피 등에 문제가 없는지 지속적으로 점검합니다."},
+      {q:"자산운용과 투자자산관리의 차이는?", a:"자산운용직은 투자전략을 수립하고 포트폴리오를 구성하는 프론트 업무라면, 투자자산관리직은 거래 결제, 회계 처리, 사후 관리 등 백오피스 업무 전반을 담당합니다."}
+    ]},
+    {name:"디지털", qaList:[
+      {q:"디지털 직군은 어떤 일을 하나요?", a:"사내 모든 업무에서 디지털 활용력을 높일 수 있도록 전사 디지털 역량을 강화하는 데에 초점을 맞추고 있습니다. AI 기술을 보험 본업에 적용하며 다양한 업무를 개선하고 있습니다."},
+      {q:"주로 어떤 언어나 툴을 사용하나요?", a:"사내 데이터 추출은 SQL 문 기반 프로그램을 사용하며, AI 서비스 개발이나 데이터 분석에는 파이썬을 사용합니다."}
+    ]},
+    {name:"IT", qaList:[
+      {q:"IT 직군은 어떤 일을 하나요?", a:"IT기획, PMO, IT품질관리, IT아키텍트, IT인프라운영, IT보안, 정보보호까지 다양한 직무가 있습니다."},
+      {q:"개발 직무 기술 스택은?", a:"프론트엔드는 Vue.js, 백엔드는 Spring 프레임워크를 사용합니다. DB 관련 업무는 SQL, 버전 관리는 GitLab을 활용합니다."}
+    ]},
+    {name:"보험지원", qaList:[
+      {q:"보험지원 직군은 어떤 일을 하나요?", a:"보험계약의 생성부터 소멸까지의 전 단계를 관리합니다. 신계약 심사, 보험금 심사, 인수기준 수립, 사기조사 등 다양한 업무를 수행합니다."},
+      {q:"필요한 역량은 무엇인가요?", a:"커뮤니케이션 능력이 특히 중요하며, 보건·의학 지식이나 수학·통계 관련 전공도 도움이 됩니다."}
+    ]}
+  ]
+};
+
+function getSiteData() {
+  try {
+    const saved = localStorage.getItem('samsungRecruitData');
+    return saved ? JSON.parse(saved) : SITE_DATA_DEFAULT;
+  } catch(e) {
+    return SITE_DATA_DEFAULT;
+  }
+}
+
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;color:#333}
+.ah{background:#1a2744;color:#fff;padding:0 28px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.ah h1{font-size:16px;font-weight:700}
+.ah-r{display:flex;align-items:center;gap:12px}
+.prev-link{color:#aad4ff;font-size:13px;text-decoration:none}
+.prev-link:hover{color:#fff}
+.save-btn{background:#4f8ef7;color:#fff;border:none;padding:7px 18px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600;transition:.2s}
+.save-btn:hover{background:#2d6ee0}
+.save-btn.ok{background:#28a745}
+.layout{display:flex;min-height:calc(100vh - 56px)}
+.sb{width:210px;background:#fff;border-right:1px solid #e0e0e0;padding:12px 0;flex-shrink:0;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto}
+.sb-lbl{padding:7px 18px 3px;font-size:10px;color:#aaa;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-top:6px}
+.sb-item{padding:9px 18px;cursor:pointer;font-size:13px;color:#555;transition:.15s;border-left:3px solid transparent}
+.sb-item:hover{background:#f5f7ff;color:#1a2744}
+.sb-item.active{background:#f0f4ff;color:#1a2744;font-weight:600;border-left-color:#4f8ef7}
+.main{flex:1;padding:22px;overflow-y:auto}
+.panel{background:#fff;border-radius:10px;padding:22px;margin-bottom:18px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.panel h2{font-size:14px;font-weight:700;color:#1a2744;margin-bottom:16px;padding-bottom:9px;border-bottom:2px solid #f0f2f5}
+.fr{margin-bottom:14px}
+.fr label{display:block;font-size:11px;font-weight:700;color:#666;margin-bottom:4px;text-transform:uppercase;letter-spacing:.3px}
+.fr input,.fr textarea,.fr select{width:100%;padding:8px 11px;border:1px solid #ddd;border-radius:6px;font-size:13px;font-family:inherit;color:#333;transition:.2s;resize:vertical}
+.fr input:focus,.fr textarea:focus{border-color:#4f8ef7;outline:none;box-shadow:0 0 0 3px rgba(79,142,247,.12)}
+.fr textarea{min-height:72px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.card{background:#f8f9fb;border:1px solid #e8e8e8;border-radius:8px;padding:14px;margin-bottom:10px}
+.card-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.card-t{font-size:12px;font-weight:700;color:#1a2744}
+.rm-btn{background:#fff0f0;color:#e53935;border:1px solid #fcc;padding:4px 9px;border-radius:4px;cursor:pointer;font-size:11px}
+.rm-btn:hover{background:#ffe0e0}
+.add-btn{background:#f0f4ff;color:#4f8ef7;border:1px dashed #4f8ef7;padding:7px 14px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;transition:.2s;margin-top:6px}
+.add-btn:hover{background:#e0e8ff}
+.hs{display:none}
+.divider{height:1px;background:#f0f2f5;margin:18px 0}
+</style>
+</head>
+<body>
+<div class="ah">
+  <h1>⚙️ 관리자 — 삼성생명 채용 마이크로사이트</h1>
+  <div class="ah-r">
+    <a href="index.html" class="prev-link" target="_blank">👁 사용자 페이지 미리보기</a>
+    <button class="save-btn" id="sbtn" onclick="saveAll()">💾 저장</button>
+  </div>
+</div>
+<div class="layout">
+  <div class="sb">
+    <div class="sb-lbl">섹션</div>
+    <div class="sb-item active" onclick="show('hero',this)">🏠 히어로 / 지원정보</div>
+    <div class="sb-item" onclick="show('nav',this)">🔗 내비게이션</div>
+    <div class="sb-item" onclick="show('process',this)">📋 채용전형</div>
+    <div class="sb-item" onclick="show('jobs',this)">💼 직군소개</div>
+    <div class="sb-item" onclick="show('campus',this)">🎓 캠퍼스 설명회</div>
+    <div class="sb-item" onclick="show('offline',this)">📅 오프라인 상담</div>
+    <div class="sb-item" onclick="show('online',this)">💻 온라인 설명회</div>
+    <div class="sb-item" onclick="show('kakao',this)">💬 카카오 상담회</div>
+    <div class="sb-item" onclick="show('biz',this)">🏢 주요 비즈니스</div>
+    <div class="sb-item" onclick="show('welfare',this)">🎁 복리후생</div>
+    <div class="sb-item" onclick="show('videos',this)">🎬 더 알아보기</div>
+    <div class="sb-item" onclick="show('faq',this)">❓ FAQ</div>
+    <div class="sb-item" onclick="show('gift',this)">🎀 상담카드 증정</div>
+    <div class="sb-lbl">팝업</div>
+    <div class="sb-item" onclick="show('jpopup',this)">📁 직군상세 팝업</div>
+    <div class="sb-item" onclick="show('ivpopup',this)">🖊️ 직무인터뷰 팝업</div>
+  </div>
+  <div class="main">
+
+    <div id="sec-hero" class="hs">
+      <div class="panel">
+        <h2>🏠 히어로 섹션</h2>
+        <div class="fr"><label>슬로건</label><input type="text" id="h_slogan"></div>
+        <div class="fr"><label>메인 타이틀</label><input type="text" id="h_title"></div>
+        <div class="g2">
+          <div class="fr"><label>지원 기간</label><input type="text" id="h_period"></div>
+          <div class="fr"><label>버튼 텍스트</label><input type="text" id="h_btntxt"></div>
+        </div>
+        <div class="fr"><label>버튼 URL</label><input type="text" id="h_btnurl"></div>
+        <div class="divider"></div>
+        <h2>📋 지원 정보</h2>
+        <div class="fr"><label>주요 직군</label><textarea id="h_jobs"></textarea></div>
+        <div class="fr"><label>지원 자격</label><textarea id="h_qual" style="min-height:110px"></textarea></div>
+        <div class="fr"><label>지원 방법</label><textarea id="h_method"></textarea></div>
+        <div class="fr"><label>지원하기 URL</label><input type="text" id="h_applyurl"></div>
+      </div>
+    </div>
+
+    <div id="sec-nav" class="hs">
+      <div class="panel">
+        <h2>🔗 내비게이션 (링크에 #섹션id 사용 가능)</h2>
+        <div id="nav-c"></div>
+        <button class="add-btn" onclick="addNav()">+ 메뉴 추가</button>
+      </div>
+    </div>
+
+    <div id="sec-process" class="hs">
+      <div class="panel">
+        <h2>📋 채용전형 단계</h2>
+        <div id="proc-c"></div>
+        <button class="add-btn" onclick="addProc()">+ 단계 추가</button>
+      </div>
+    </div>
+
+    <div id="sec-jobs" class="hs">
+      <div class="panel">
+        <h2>💼 직군 소개</h2>
+        <div id="jobs-c"></div>
+        <button class="add-btn" onclick="addJob()">+ 직군 추가</button>
+      </div>
+    </div>
+
+    <div id="sec-campus" class="hs">
+      <div class="panel">
+        <h2>🎓 캠퍼스 채용설명회</h2>
+        <div class="g2">
+          <div class="fr"><label>서브 텍스트</label><input type="text" id="ca_sub"></div>
+          <div class="fr"><label>타이틀</label><input type="text" id="ca_title"></div>
+        </div>
+        <div class="fr"><label>안내 문구</label><textarea id="ca_notice"></textarea></div>
+        <div class="fr"><label>신청 대상</label><textarea id="ca_target"></textarea></div>
+        <div class="fr"><label>신청 URL</label><input type="text" id="ca_url"></div>
+        <div class="divider"></div>
+        <h2>일정</h2>
+        <div id="ca-events-c"></div>
+        <button class="add-btn" onclick="addCaEvent()">+ 날짜 추가</button>
+      </div>
+    </div>
+
+    <div id="sec-offline" class="hs">
+      <div class="panel">
+        <h2>📅 오프라인 채용 상담</h2>
+        <div class="g2">
+          <div class="fr"><label>서브 텍스트</label><input type="text" id="of_sub"></div>
+          <div class="fr"><label>타이틀</label><input type="text" id="of_title"></div>
+        </div>
+        <div id="of-weeks-c"></div>
+        <button class="add-btn" onclick="addOfWeek()">+ 주차 추가</button>
+      </div>
+    </div>
+
+    <div id="sec-online" class="hs">
+      <div class="panel">
+        <h2>💻 온라인 채용 설명회</h2>
+        <div class="fr"><label>서브 텍스트</label><input type="text" id="on_sub"></div>
+        <div class="fr"><label>타이틀</label><input type="text" id="on_title"></div>
+        <div class="fr"><label>설명</label><textarea id="on_desc"></textarea></div>
+        <div class="g2">
+          <div class="fr"><label>오픈 일시</label><input type="text" id="on_date"></div>
+          <div class="fr"><label>버튼 텍스트</label><input type="text" id="on_btn"></div>
+        </div>
+        <div class="fr"><label>버튼 URL</label><input type="text" id="on_url"></div>
+      </div>
+    </div>
+
+    <div id="sec-kakao" class="hs">
+      <div class="panel">
+        <h2>💬 카카오톡 채용 상담회</h2>
+        <div class="fr"><label>서브 텍스트</label><input type="text" id="ka_sub"></div>
+        <div class="fr"><label>타이틀</label><input type="text" id="ka_title"></div>
+        <div class="fr"><label>설명</label><textarea id="ka_desc"></textarea></div>
+        <div class="g2">
+          <div class="fr"><label>일시</label><input type="text" id="ka_date"></div>
+          <div class="fr"><label>신청 URL</label><input type="text" id="ka_url"></div>
+        </div>
+        <div class="divider"></div>
+        <h2>시간대별 직군</h2>
+        <div id="ka-sched-c"></div>
+        <button class="add-btn" onclick="addKaSched()">+ 시간대 추가</button>
+      </div>
+    </div>
+
+    <div id="sec-biz" class="hs">
+      <div class="panel">
+        <h2>🏢 주요 비즈니스</h2>
+        <div id="biz-c"></div>
+        <button class="add-btn" onclick="addBiz()">+ 항목 추가</button>
+      </div>
+    </div>
+
+    <div id="sec-welfare" class="hs">
+      <div class="panel">
+        <h2>🎁 복리후생 & 성장지원</h2>
+        <div class="fr"><label>복리후생 이미지 URL</label><input type="text" id="wf_img"></div>
+        <div class="fr"><label>조직문화 이미지 URL</label><input type="text" id="wf_cu"></div>
+        <div class="fr"><label>생생후기 링크</label><input type="text" id="wf_review"></div>
+        <div class="divider"></div>
+        <h2>성장지원 카테고리</h2>
+        <div id="wf-cats-c"></div>
+        <button class="add-btn" onclick="addWfCat()">+ 카테고리 추가</button>
+      </div>
+    </div>
+
+    <div id="sec-videos" class="hs">
+      <div class="panel">
+        <h2>🎬 영상</h2>
+        <div id="vid-c"></div>
+        <button class="add-btn" onclick="addVid()">+ 영상 추가</button>
+      </div>
+    </div>
+
+    <div id="sec-faq" class="hs">
+      <div class="panel">
+        <h2>❓ FAQ</h2>
+        <div class="fr"><label>문의 이메일</label><input type="text" id="faq_email"></div>
+        <div class="divider"></div>
+        <div id="faq-c"></div>
+        <button class="add-btn" onclick="addFaqCat()">+ 카테고리 추가</button>
+      </div>
+    </div>
+
+    <div id="sec-gift" class="hs">
+      <div class="panel">
+        <h2>🎀 상담카드 증정</h2>
+        <div class="fr"><label>설명 문구</label><textarea id="gi_desc"></textarea></div>
+        <div class="g2">
+          <div class="fr"><label>버튼 텍스트</label><input type="text" id="gi_btn"></div>
+          <div class="fr"><label>버튼 URL</label><input type="text" id="gi_url"></div>
+        </div>
+        <div class="divider"></div>
+        <h2>증정품</h2>
+        <div id="gift-c"></div>
+        <button class="add-btn" onclick="addGift()">+ 증정품 추가</button>
+      </div>
+    </div>
+
+    <div id="sec-jpopup" class="hs">
+      <div class="panel">
+        <h2>📁 직군상세 팝업</h2>
+        <div id="jp-c"></div>
+      </div>
+    </div>
+
+    <div id="sec-ivpopup" class="hs">
+      <div class="panel">
+        <h2>🖊️ 직무인터뷰 팝업</h2>
+        <div id="iv-c"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+let D={};
+function load(){try{D=JSON.parse(localStorage.getItem('samsungRecruitData')||'null')||JSON.parse(JSON.stringify(SITE_DATA_DEFAULT));}catch(e){D=JSON.parse(JSON.stringify(SITE_DATA_DEFAULT));}}
+function sv(id){const e=document.getElementById(id);return e?e.value:'';}
+function si(id,v){const e=document.getElementById(id);if(e)e.value=v||'';}
+function qa(sel,ctx=document){return Array.from(ctx.querySelectorAll(sel));}
+function qv(ctx,sel){const e=ctx.querySelector(sel);return e?e.value:'';}
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function show(name,el){
+  document.querySelectorAll('.hs').forEach(s=>s.style.display='none');
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
+  const sec=document.getElementById('sec-'+name);
+  if(sec)sec.style.display='block';
+  if(el)el.classList.add('active');
+}
+
+function saveAll(){
+  D.hero={slogan:sv('h_slogan'),title:sv('h_title'),period:sv('h_period'),btnText:sv('h_btntxt'),btnUrl:sv('h_btnurl')};
+  D.info={jobs:sv('h_jobs'),qual:sv('h_qual'),method:sv('h_method'),applyUrl:sv('h_applyurl')};
+  D.nav=qa('#nav-c .card').map(c=>({name:qv(c,'.n-name'),url:qv(c,'.n-url'),isCta:c.querySelector('.n-cta').checked}));
+  D.process=qa('#proc-c input').map(i=>i.value);
+  D.jobs=qa('#jobs-c .card').map(c=>({name:qv(c,'.j-name'),emoji:qv(c,'.j-emoji'),videoUrl:qv(c,'.j-vid')}));
+  D.campus={subtitle:sv('ca_sub'),title:sv('ca_title'),notice:sv('ca_notice'),target:sv('ca_target'),applyUrl:sv('ca_url'),
+    events:qa('#ca-events-c>.card').map(c=>({date:qv(c,'.ce-date'),items:qa('.ce-item',c).map(i=>({school:qv(i,'.ce-school'),location:qv(i,'.ce-loc'),time:qv(i,'.ce-time')}))}))};
+  D.offline={subtitle:sv('of_sub'),title:sv('of_title'),
+    weeks:qa('#of-weeks-c>.card').map(c=>({dates:qv(c,'.of-dates'),schools:qa('.of-school',c).map(s=>({name:qv(s,'.of-sname'),location:qv(s,'.of-sloc')}))}))}; 
+  D.online={subtitle:sv('on_sub'),title:sv('on_title'),desc:sv('on_desc'),date:sv('on_date'),btnText:sv('on_btn'),url:sv('on_url')};
+  D.kakao={subtitle:sv('ka_sub'),title:sv('ka_title'),desc:sv('ka_desc'),date:sv('ka_date'),url:sv('ka_url'),
+    schedule:qa('#ka-sched-c .card').map(c=>({time:qv(c,'.ka-time'),jobs:qv(c,'.ka-jobs')}))};
+  D.business=qa('#biz-c .card').map(c=>({title:qv(c,'.biz-title'),desc:qv(c,'.biz-desc'),imgUrl:qv(c,'.biz-img')}));
+  D.welfare={imgUrl:sv('wf_img'),cultureImgUrl:sv('wf_cu'),reviewUrl:sv('wf_review'),cats:qa('#wf-cats-c .card').map(c=>({name:qv(c,'.wf-name'),items:qv(c,'.wf-items')}))};
+  D.videos=qa('#vid-c .card').map(c=>({title:qv(c,'.v-title'),url:qv(c,'.v-url'),thumb:qv(c,'.v-thumb')}));
+  D.faq={email:sv('faq_email'),categories:qa('#faq-c>.card').map(c=>({name:qv(c,'.fcat-name'),items:qa('.fqa-row',c).map(r=>({q:qv(r,'.fq-q'),a:qv(r,'.fq-a')}))}))};
+  D.gift={desc:sv('gi_desc'),btnText:sv('gi_btn'),url:sv('gi_url'),items:qa('#gift-c .card').map(c=>({name:qv(c,'.gi-name')}))};
+  D.jobPopups=qa('#jp-c>.card').map(c=>({name:qv(c,'.jp-name'),tags:qv(c,'.jp-tags'),desc:qv(c,'.jp-desc'),duties:qa('.jp-duty',c).map(d=>({title:qv(d,'.jp-dtitle'),desc:qv(d,'.jp-ddesc')}))}));
+  D.interviewPopups=qa('#iv-c>.card').map(c=>({name:qv(c,'.iv-name'),qaList:qa('.iv-qa',c).map(r=>({q:qv(r,'.iv-q'),a:qv(r,'.iv-a')}))}));
+  localStorage.setItem('samsungRecruitData',JSON.stringify(D));
+  const b=document.getElementById('sbtn');b.textContent='✓ 저장완료!';b.classList.add('ok');
+  setTimeout(()=>{b.textContent='💾 저장';b.classList.remove('ok');},2000);
+}
+
+// ===== RENDER HELPERS =====
+function rNav(){
+  document.getElementById('nav-c').innerHTML=(D.nav||[]).map((n,i)=>`
+    <div class="card"><div class="card-h"><span class="card-t">메뉴 ${i+1}</span><button class="rm-btn" onclick="rmNav(${i})">삭제</button></div>
+    <div class="g2"><div class="fr"><label>메뉴명</label><input type="text" class="n-name" value="${esc(n.name)}"></div>
+    <div class="fr"><label>링크</label><input type="text" class="n-url" value="${esc(n.url)}"></div></div>
+    <div class="fr" style="display:flex;align-items:center;gap:8px"><input type="checkbox" class="n-cta" ${n.isCta?'checked':''}><label style="text-transform:none;letter-spacing:0;font-size:13px">CTA 버튼으로 표시</label></div>
+    </div>`).join('');
+}
+function addNav(){D.nav.push({name:'',url:'',isCta:false});rNav();}
+function rmNav(i){D.nav.splice(i,1);rNav();}
+
+function rProc(){
+  document.getElementById('proc-c').innerHTML=(D.process||[]).map((s,i)=>`
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <div style="width:26px;height:26px;background:#1a2744;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">${i+1}</div>
+      <input type="text" style="flex:1;padding:7px 10px;border:1px solid #ddd;border-radius:5px;font-size:13px" value="${esc(s)}">
+      <button class="rm-btn" onclick="rmProc(${i})">삭제</button>
+    </div>`).join('');
+}
+function addProc(){D.process.push('');rProc();}
+function rmProc(i){D.process.splice(i,1);rProc();}
+
+function rJobs(){
+  document.getElementById('jobs-c').innerHTML=(D.jobs||[]).map((j,i)=>`
+    <div class="card"><div class="card-h"><span class="card-t">직군 ${i+1}</span><button class="rm-btn" onclick="rmJob(${i})">삭제</button></div>
+    <div class="g3">
+      <div class="fr"><label>직군명</label><input type="text" class="j-name" value="${esc(j.name)}"></div>
+      <div class="fr"><label>이모티콘</label><input type="text" class="j-emoji" value="${esc(j.emoji)}"></div>
+      <div class="fr"><label>영상 URL</label><input type="text" class="j-vid" value="${esc(j.videoUrl)}"></div>
+    </div></div>`).join('');
+}
+function addJob(){D.jobs.push({name:'',emoji:'🔖',videoUrl:''});rJobs();}
+function rmJob(i){D.jobs.splice(i,1);rJobs();}
+
+function rCaEvents(){
+  const ev=(D.campus||{}).events||[];
+  document.getElementById('ca-events-c').innerHTML=ev.map((e,i)=>`
+    <div class="card"><div class="card-h"><span class="card-t">날짜 ${i+1}</span><button class="rm-btn" onclick="rmCaEvent(${i})">삭제</button></div>
+    <div class="fr"><label>날짜</label><input type="text" class="ce-date" value="${esc(e.date)}"></div>
+    ${(e.items||[]).map((it,j)=>`<div class="card ce-item" style="background:#f0f2f5">
+      <div class="card-h"><span class="card-t">학교 ${j+1}</span><button class="rm-btn" onclick="rmCaItem(${i},${j})">삭제</button></div>
+      <div class="g3">
+        <div class="fr"><label>학교</label><input type="text" class="ce-school" value="${esc(it.school)}"></div>
+        <div class="fr"><label>장소</label><input type="text" class="ce-loc" value="${esc(it.location)}"></div>
+        <div class="fr"><label>시간</label><input type="text" class="ce-time" value="${esc(it.time)}"></div>
+      </div></div>`).join('')}
+    <button class="add-btn" onclick="addCaItem(${i})" style="margin-top:4px">+ 학교 추가</button>
+    </div>`).join('');
+}
+function addCaEvent(){if(!D.campus)D.campus={events:[]};if(!D.campus.events)D.campus.events=[];D.campus.events.push({date:'',items:[]});rCaEvents();}
+function rmCaEvent(i){D.campus.events.splice(i,1);rCaEvents();}
+function addCaItem(i){D.campus.events[i].items.push({school:'',location:'',time:''});rCaEvents();}
+function rmCaItem(i,j){D.campus.events[i].items.splice(j,1);rCaEvents();}
+
+function rOfWeeks(){
+  const wks=(D.offline||{}).weeks||[];
+  document.getElementById('of-weeks-c').innerHTML=wks.map((w,i)=>`
+    <div class="card"><div class="card-h"><span class="card-t">주차 ${i+1}</span><button class="rm-btn" onclick="rmOfWeek(${i})">삭제</button></div>
+    <div class="fr"><label>기간</label><input type="text" class="of-dates" value="${esc(w.dates)}"></div>
+    ${(w.schools||[]).map((s,j)=>`<div class="card of-school" style="background:#f0f2f5">
+      <div class="card-h"><span class="card-t">학교 ${j+1}</span><button class="rm-btn" onclick="rmOfSchool(${i},${j})">삭제</button></div>
+      <div class="g2">
+        <div class="fr"><label>학교</label><input type="text" class="of-sname" value="${esc(s.name)}"></div>
+        <div class="fr"><label>장소</label><input type="text" class="of-sloc" value="${esc(s.location)}"></div>
+      </div></div>`).join('')}
+    <button class="add-btn" onclick="addOfSchool(${i})" style="margin-top:4px">+ 학교 추가</button>
+    </div>`).join('');
+}
+function addOfWeek(){if(!D.offline)D.offline={weeks:[]};if(!D.offline.weeks)D.offline.weeks=[];D.offline.weeks.push({dates:'',schools:[]});rOfWeeks();}
+function rmOfWeek(i){D.offline.weeks.splice(i,1);rOfWeeks();}
+function addOfSchool(i){D.offline.weeks[i].schools.push({name:'',location:''});rOfWeeks();}
+function rmOfSchool(i,j){D.offline.weeks[i].schools.splice(j,1);rOfWeeks();}
+
+function rKaSched(){
+  document.getElementById('ka-sched-c').innerHTML=((D.kakao||{}).schedule||[]).map((s,i)=>`
+    <div class="card"><div class="card-h"><span class="card-t">시간대 ${i+1}</span><button class="rm-btn" onclick="rmKaSched(${i})">삭제</button></div>
+    <div class="g2">
+      <div class="fr"><label>시간</label><input type="text" class="ka-time" value="${esc(s.time)}"></div>
+      <div class="fr"><label>직군</label><input type="text" class="ka-jobs" value="${esc(s.jobs)}"></div>
+    </div></div>`).join('');
+}
+function addKaSched(){if(!D.kakao)D.kakao={schedule:[]};if(!D.kakao.schedule)D.kakao.schedule=[];D.kakao.schedule.push({time:'',jobs:''});rKaSched();}
+function rmKaSched(i){D.kakao.schedule.splice(i,1);rKaSched();}
+
+function rBiz(){
+  document.getElementById('biz-c').innerHTML=(D.business||[]).map((b,i)=>`
+    <div class="card"><div class="card-h"><span class="card-t">항목 ${i+1}</span><button class="rm-btn" onclick="rmBiz(${i})">삭제</button></div>
+    <div class="fr"><label>타이틀</label><input type="text" class="biz-title" value="${esc(b.title)}"></div>
+    <div class="fr"><label>설명</label><textarea class="biz-desc">${esc(b.desc)}</textarea></div>
+    <div class="fr"><label>이미지 URL</label><input type="text" class="biz-img" value="${esc(b.imgUrl)}"></div>
+    </div>`).join('');
+}
+function addBiz(){D.business.push({title:'',desc:'',imgUrl:''});rBiz();}
+function rmBiz(i){D.business.splice(i,1);rBiz();}
+
+function rWfCats(){
+  document.getElementById('wf-cats-c').innerHTML=((D.welfare||{}).cats||[]).map((c,i)=>`
+    <div class="card"><div class="card-h"><span class="card-t">카테고리 ${i+1}</span><button class="rm-btn" onclick="rmWfCat(${i})">삭제</button></div>
+    <div class="g2">
+      <div class="fr"><label>카테고리명</label><input type="text" class="wf-name" value="${esc(c.name)}"></div>
+      <div class="fr"><label>항목 (쉼표 구분)</label><input type="text" class="wf-items" value="${esc(c.items)}"></div>
+    </div></div>`).join('');
+}
+function addWfCat(){if(!D.welfare)D.welfare={cats:[]};if(!D.welfare.cats)D.welfare.cats=[];D.welfare.cats.push({name:'',items:''});rWfCats();}
+function rmWfCat(i){D.welfare.cats.splice(i,1);rWfCats();}
+
+function rVids(){
+  document.getElementById('vid-c').innerHTML=(D.videos||[]).map((v,i)=>`
+    <div class="card"><div class="card-h"><span class="card-t">영상 ${i+1}</span><button class="rm-btn" onclick="rmVid(${i})">삭제</button></div>
+    <div class="g3">
+      <div class="fr"><label>제목</label><input type="text" class="v-title" value="${esc(v.title)}"></div>
+      <div class="fr"><label>유튜브 URL</label><input type="text" class="v-url" value="${esc(v.url)}"></div>
+      <div class="fr"><label>썸네일 URL</label><input type="text" class="v-thumb" value="${esc(v.thumb)}"></div>
+    </div></div>`).join('');
+}
+function addVid(){D.videos.push({title:'',url:'',thumb:''});rVids();}
+function rmVid(i){D.videos.splice(i,1);rVids();}
+
+function rFaq(){
+  document.getElementById('faq-c').innerHTML=((D.faq||{}).categories||[]).map((c,ci)=>`
+    <div class="card"><div class="card-h"><span class="card-t">카테고리 ${ci+1}</span><button class="rm-btn" onclick="rmFaqCat(${ci})">삭제</button></div>
+    <div class="fr"><label>카테고리명</label><input type="text" class="fcat-name" value="${esc(c.name)}"></div>
+    ${(c.items||[]).map((it,ii)=>`<div class="card fqa-row" style="background:#f0f2f5">
+      <div class="card-h"><span class="card-t">Q&A ${ii+1}</span><button class="rm-btn" onclick="rmFaqItem(${ci},${ii})">삭제</button></div>
+      <div class="fr"><label>질문</label><input type="text" class="fq-q" value="${esc(it.q)}"></div>
+      <div class="fr"><label>답변</label><textarea class="fq-a">${esc(it.a)}</textarea></div>
+      </div>`).join('')}
+    <button class="add-btn" onclick="addFaqItem(${ci})" style="margin-top:4px">+ Q&A 추가</button>
+    </div>`).join('');
+}
+function addFaqCat(){if(!D.faq)D.faq={categories:[]};if(!D.faq.categories)D.faq.categories=[];D.faq.categories.push({name:'',items:[]});rFaq();}
+function rmFaqCat(i){D.faq.categories.splice(i,1);rFaq();}
+function addFaqItem(ci){D.faq.categories[ci].items.push({q:'',a:''});rFaq();}
+function rmFaqItem(ci,ii){D.faq.categories[ci].items.splice(ii,1);rFaq();}
+
+function rGift(){
+  document.getElementById('gift-c').innerHTML=((D.gift||{}).items||[]).map((g,i)=>`
+    <div class="card"><div class="card-h"><span class="card-t">증정품 ${i+1}</span><button class="rm-btn" onclick="rmGift(${i})">삭제</button></div>
+    <div class="fr"><label>증정품명</label><input type="text" class="gi-name" value="${esc(g.name)}"></div>
+    </div>`).join('');
+}
+function addGift(){if(!D.gift)D.gift={items:[]};if(!D.gift.items)D.gift.items=[];D.gift.items.push({name:''});rGift();}
+function rmGift(i){D.gift.items.splice(i,1);rGift();}
+
+function rJpopup(){
+  document.getElementById('jp-c').innerHTML=(D.jobPopups||[]).map((jp,i)=>`
+    <div class="card"><div class="card-h"><span class="card-t">📁 ${esc(jp.name)}</span></div>
+    <div class="g2">
+      <div class="fr"><label>직군명</label><input type="text" class="jp-name" value="${esc(jp.name)}"></div>
+      <div class="fr"><label>해시태그</label><input type="text" class="jp-tags" value="${esc(jp.tags)}"></div>
+    </div>
+    <div class="fr"><label>직군 설명</label><textarea class="jp-desc">${esc(jp.desc)}</textarea></div>
+    <label style="font-size:11px;font-weight:700;color:#666;text-transform:uppercase;letter-spacing:.3px;display:block;margin-bottom:8px">대표 직무</label>
+    ${(jp.duties||[]).map((d,di)=>`<div class="card jp-duty" style="background:#f0f2f5">
+      <div class="card-h"><span class="card-t">직무 ${di+1}</span><button class="rm-btn" onclick="rmJpDuty(${i},${di})">삭제</button></div>
+      <div class="g2">
+        <div class="fr"><label>직무명</label><input type="text" class="jp-dtitle" value="${esc(d.title)}"></div>
+        <div class="fr"><label>설명</label><input type="text" class="jp-ddesc" value="${esc(d.desc)}"></div>
+      </div></div>`).join('')}
+    <button class="add-btn" onclick="addJpDuty(${i})" style="margin-top:4px">+ 직무 추가</button>
+    </div>`).join('');
+}
+function addJpDuty(i){D.jobPopups[i].duties.push({title:'',desc:''});rJpopup();}
+function rmJpDuty(i,di){D.jobPopups[i].duties.splice(di,1);rJpopup();}
+
+function rIvpopup(){
+  document.getElementById('iv-c').innerHTML=(D.interviewPopups||[]).map((iv,i)=>`
+    <div class="card"><div class="card-h"><span class="card-t">🖊️ ${esc(iv.name)}</span></div>
+    <div class="fr"><label>직군명</label><input type="text" class="iv-name" value="${esc(iv.name)}"></div>
+    ${(iv.qaList||[]).map((qa,qi)=>`<div class="card iv-qa" style="background:#f0f2f5">
+      <div class="card-h"><span class="card-t">Q&A ${qi+1}</span><button class="rm-btn" onclick="rmIvQa(${i},${qi})">삭제</button></div>
+      <div class="fr"><label>질문</label><input type="text" class="iv-q" value="${esc(qa.q)}"></div>
+      <div class="fr"><label>답변</label><textarea class="iv-a">${esc(qa.a)}</textarea></div>
+      </div>`).join('')}
+    <button class="add-btn" onclick="addIvQa(${i})" style="margin-top:4px">+ Q&A 추가</button>
+    </div>`).join('');
+}
+function addIvQa(i){D.interviewPopups[i].qaList.push({q:'',a:''});rIvpopup();}
+function rmIvQa(i,qi){D.interviewPopups[i].qaList.splice(qi,1);rIvpopup();}
+
+function init(){
+  load();
+  const h=D.hero||{},inf=D.info||{};
+  si('h_slogan',h.slogan);si('h_title',h.title);si('h_period',h.period);si('h_btntxt',h.btnText);si('h_btnurl',h.btnUrl);
+  si('h_jobs',inf.jobs);si('h_qual',inf.qual);si('h_method',inf.method);si('h_applyurl',inf.applyUrl);
+  const ca=D.campus||{};si('ca_sub',ca.subtitle);si('ca_title',ca.title);si('ca_notice',ca.notice);si('ca_target',ca.target);si('ca_url',ca.applyUrl);
+  const of=D.offline||{};si('of_sub',of.subtitle);si('of_title',of.title);
+  const on=D.online||{};si('on_sub',on.subtitle);si('on_title',on.title);si('on_desc',on.desc);si('on_date',on.date);si('on_btn',on.btnText);si('on_url',on.url);
+  const ka=D.kakao||{};si('ka_sub',ka.subtitle);si('ka_title',ka.title);si('ka_desc',ka.desc);si('ka_date',ka.date);si('ka_url',ka.url);
+  const wf=D.welfare||{};si('wf_img',wf.imgUrl);si('wf_cu',wf.cultureImgUrl);si('wf_review',wf.reviewUrl);
+  si('faq_email',(D.faq||{}).email);
+  const gi=D.gift||{};si('gi_desc',gi.desc);si('gi_btn',gi.btnText);si('gi_url',gi.url);
+  rNav();rProc();rJobs();rCaEvents();rOfWeeks();rKaSched();rBiz();rWfCats();rVids();rFaq();rGift();rJpopup();rIvpopup();
+  document.getElementById('sec-hero').style.display='block';
+}
+init();
+</script>
+</body>
+</html>

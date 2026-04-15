@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>2026 상반기 삼성생명 신입채용</title>
+<script>
+// 이 파일의 SITE_DATA를 수정하면 사용자 페이지에 바로 반영됩니다.
+// 관리자 페이지에서 저장하면 localStorage에 우선 저장됩니다.
+
+const SITE_DATA_DEFAULT = {
+  nav: [
+    {name:"직군소개", url:"#jobs"},
+    {name:"오프라인행사", url:"#offline"},
+    {name:"온라인행사", url:"#online"},
+    {name:"회사소개", url:"#business"},
+    {name:"FAQ", url:"#faq"},
+    {name:"상담카드 작성하기", url:"https://www.careertalk.kr/event-pin/8538984", isCta:true}
+  ],
+  hero: {
+    slogan: "더 나은 삶을 만드는 일에, 더 나은 내가 있으니까",
+    title: "2026 상반기 삼성생명 신입사원 채용",
+    period: "3월10일(화)~3월17일(화)",
+    btnText: "▶ 지금 바로 지원하기 ◀",
+    btnUrl: "https://www.samsungcareers.com/hr/?no=21884"
+  },
+  info: {
+    jobs: "영업관리, 상품계리, 자산운용, 투자자산관리,\n디지털 서비스 기획 및 운영, IT 서비스 기획 및 운영, 보험지원",
+    qual: "2026년 8월 이전 졸업 또는 졸업 예정인 분\n*OPIc IM 또는 토익스피킹 130점 이상\n (단, 영업관리직군은 OPIc IL 또는 토익스피킹 110점 이상)\n*병역필 또는 면제자로, 해외여행에 결격사유가 없는 분\n*IT의 경우 전산/컴퓨터 계열 전공자에 한하여 지원 가능",
+    method: "삼성커리어스 지원\n(www.samsungcareers.com)",
+    applyUrl: "https://www.samsungcareers.com/hr/?no=21884"
+  },
+  process: ["지원서\n접수","직무적합성\n평가","직무적성검사\n(GSAT)","면접\n전형","건강검진"],
+  jobs: [
+    {name:"영업관리",  emoji:"💼", videoUrl:"https://youtu.be/AQA6KHBIHcc?si=XM7uEiJOzdaNS3s7"},
+    {name:"상품계리",  emoji:"📊", videoUrl:"https://youtu.be/9iDEHEGEpXQ?si=A40k1buugNCamobS"},
+    {name:"자산운용",  emoji:"💹", videoUrl:"https://youtu.be/i4xGPe_Pu1I?si=_0PbuF9Oh3tXCpJD"},
+    {name:"투자자산관리",emoji:"📈",videoUrl:"https://youtu.be/6_22VlJdnME?si=ro9xjyyJnXXh6KbU"},
+    {name:"디지털",   emoji:"💡", videoUrl:"https://youtu.be/VkuNiWvQ0Ek"},
+    {name:"IT",       emoji:"💻", videoUrl:"https://youtu.be/5_8N3mMQO0Y?si=GRiAYs8W-o0ov0hp"},
+    {name:"보험지원", emoji:"🛡️", videoUrl:"https://youtu.be/4AFNDia0LBU?si=JOGyaWfXA2gJA_20"}
+  ],
+  campus: {
+    subtitle: "영업관리 꿈나무를 위한",
+    title: "찾아가는 캠퍼스 채용설명회",
+    notice: "참석자 전원에게 맛있는 점심을 제공합니다",
+    target: "기졸업자 혹은 27년 이내 졸업예정자 중 영업관리 직군에 관심있는 모든 분들",
+    applyUrl: "https://forms.gle/Bk2qJJbQLf4F1nrk7",
+    events: [
+      {date:"03 .09", items:[
+        {school:"충북대학교", location:"중앙도서관 2관 5층 세미나실", time:"12:00-13:00"},
+        {school:"전북대학교", location:"진수당 2층 글로컬홀", time:"12:00-13:00"}
+      ]},
+      {date:"03 .10", items:[
+        {school:"충남대학교", location:"인재개발원 2층 시너지실", time:"12:00-13:00"},
+        {school:"전남대학교", location:"경영대 3층 경영대학 CBA홀", time:"12:00-13:00"}
+      ]}
+    ]
+  },
+  offline: {
+    subtitle: "모든 직군 현직자와 함께하는!",
+    title: "오프라인 채용 상담 일정",
+    weeks: [
+      {dates:"03.02 ~ 03.06", schools:[
+        {name:"고려대", location:"SK미래관 1층 로비"},
+        {name:"연세대", location:"공학원 1층 로비 아트리움"},
+        {name:"서강대", location:"체육관"},
+        {name:"한양대", location:"HIT관 1·6층"},
+        {name:"서울대", location:"유희진학술정보관(300동) 2층"},
+        {name:"성균관대(자연)", location:"삼성학술정보관 4층"},
+        {name:"카이스트", location:"류근철 스포츠 콤플렉스"}
+      ]},
+      {dates:"03.09 ~ 03.13", schools:[
+        {name:"이화여대", location:"ECC 다목적홀, 이삼봉홀"},
+        {name:"연세대", location:"학생회관 2층"},
+        {name:"고려대", location:"현대자동차경영관 1층 로비"},
+        {name:"서울시립대", location:"학생회관 2층"},
+        {name:"중앙대", location:"310관 2층 로비"},
+        {name:"서강대", location:"BW관 3층 310호"},
+        {name:"서울대", location:"롯데국제교육관 Job Café"},
+        {name:"한양대", location:"학생회관 크루라운지"},
+        {name:"한국외대", location:"채용상담실"},
+        {name:"성균관대(인문)", location:"경영관 1층 리크루팅 3번 부스"},
+        {name:"경희대(서울)", location:"경영대 오비스홀 3층 로비"},
+        {name:"경북대", location:"복지관 4층 스터디룸4"},
+        {name:"부산대", location:"문창회관 2층 문창1실"},
+        {name:"전남대", location:"경영대 1호관 1층"},
+        {name:"전북대", location:"진수당 1층 스터디룸 4번"},
+        {name:"충남대", location:"인재개발원 2층 잡카페 1번 부스"},
+        {name:"충북대", location:"중앙도서관 1관 상담실"}
+      ]}
+    ]
+  },
+  online: {
+    subtitle: "언제 어디서나 누구나 들을 수 있는",
+    title: "온라인 채용 설명회",
+    desc: "삼성생명 인사팀 채용담당자가 회사소개부터 채용 전형 안내까지 신입사원 채용의 모든 것을 설명해드립니다.\n모든 신청자분들께 설명회 영상 링크를 보내드립니다.",
+    date: "3월 10일 화요일 OPEN",
+    btnText: "설명회 신청 바로가기",
+    url: "https://forms.gle/R7X4xV3LNMVSgdib6"
+  },
+  kakao: {
+    subtitle: "누구나 참여할 수 있는",
+    title: "카카오톡 채용 상담회",
+    desc: "각 직군별 현직자가 오픈카톡 채용 상담회를 통해 답변해드립니다. 채용 과정은 어떻게 되는지, 하루 업무는 어떤지, 회사 분위기는 어떤지 현직자에게 물어보고 싶은 이야기들은 여기서 직접 질문해주세요.",
+    date: "3.13 (금) 13:30 - 17:00",
+    url: "https://forms.gle/EdV89h7iA8ZZExEp9",
+    schedule: [
+      {time:"13:30 - 15:00", jobs:"영업관리, 상품계리, 보험지원"},
+      {time:"15:30 - 17:00", jobs:"자산운용, 투자자산관리, 디지털, IT"}
+    ]
+  },
+  business: [
+    {title:"상품개발ㅣ상품판매ㅣ고객관리", desc:"고객 중심의 상품 다각화 및 서비스 개발을 통해 다양한 니즈에 맞는 솔루션을 제공합니다.", imgUrl:"https://www.samsunglife-recruit.com/assets/images/sec07_thumb_01.jpg"},
+    {title:"자산운용ㅣ해외사업", desc:"자산운용을 수익창출의 핵심 축으로 지속 확대하며 해외사업도 적극적으로 확장하고 있습니다.", imgUrl:"https://www.samsunglife-recruit.com/assets/images/sec07_thumb_02.jpg"},
+    {title:"디지털혁신ㅣ신사업", desc:"전체 사업부문의 디지털 혁신과 헬스케어 플랫폼 구축 등 신성장사업을 지속 추진합니다.", imgUrl:"https://www.samsunglife-recruit.com/assets/images/sec07_thumb_03.jpg"}
+  ],
+  welfare: {
+    imgUrl: "https://www.samsunglife-recruit.com/assets/images/sec08_benefit.png",
+    cultureImgUrl: "https://www.samsunglife-recruit.com/assets/images/sec09_culture.png",
+    reviewUrl: "javascript:void(0);",
+    cats: [
+      {name:"여가 지원", items:"복지포인트, 전국 유명콘도, 도서구입/구독, 캐리비안베이 입장권"},
+      {name:"글로벌", items:"회화평가 응시료지원, 회화 강의 지원, 지역전문가/MBA, 글로벌 주니어 연수"},
+      {name:"자기계발", items:"입문 교육 SVP JSL, 선택형 지식&스킬 필수교육, 본부실별 직무교육과정, 자율선택형 신청 교육과정, 모바일 기반 상시 학습플랫폼"}
+    ]
+  },
+  videos: [
+    {title:"신입사원 연수", url:"https://youtu.be/3u0NxP9qnek", thumb:"https://www.samsunglife-recruit.com/assets/images/movie_thumb_01.jpg"},
+    {title:"생명인 스토리", url:"https://youtube.com/shorts/-cF-FQfxHJc", thumb:"https://www.samsunglife-recruit.com/assets/images/movie_thumb_02.jpg"},
+    {title:"삼성생명 대표 CSR", url:"https://youtu.be/EQfZMzKy89s", thumb:"https://www.samsunglife-recruit.com/assets/images/movie_thumb_03.jpg"}
+  ],
+  faq: {
+    email: "recruit.sli@samsung.com",
+    categories: [
+      {name:"지원 자격", items:[
+        {q:"학력, 성별 및 연령 제한이 있나요?", a:"삼성생명 신입사원 공개채용에는 학력, 성별, 연령에 따른 제한이 없습니다."},
+        {q:"별도의 경력이 없는데 지원이 가능한가요?", a:"경력과 무관하게 직무 관련 역량이 있다고 판단될 경우 지원하실 수 있습니다."},
+        {q:"재지원 시 불이익이 있나요?", a:"재지원 여부는 전형 과정에서 전혀 고려되지 않으며, 따라서 재지원 시 불이익은 없습니다."},
+        {q:"영어권 소재 대학교 졸업자의 경우 영어회화 성적 제출이 면제되나요?", a:"영어권 국가에서 학사 이상 학위를 취득하셨거나 취득이 예정되어 있으신 분의 경우 영어회화 자격 면제 대상입니다."},
+        {q:"현재 수료 상태이거나 졸업을 유예한 상태인데, 지원이 가능한가요?", a:"네, 2026년 8월 졸업이 가능하시다면 지원 가능합니다."}
+      ]},
+      {name:"지원서 작성", items:[
+        {q:"삼성 타 관계사 공고와 중복 지원이 가능한가요?", a:"삼성 관계사 간 중복 지원은 불가합니다. 현재 삼성커리어스에서 진행 중인 공고 중 한 개의 공고에만 지원하실 수 있습니다."},
+        {q:"학교명/전공명이 검색되지 않습니다.", a:"검색란 하단의 '기타검색'을 누르신 후 가장 유사한 대분류를 선택해 주세요."},
+        {q:"회화 성적의 유효기간 기준은 어떻게 되나요?", a:"지원서 접수 마감일을 기준으로 최근 2년 이내에 취득한 성적만 유효하게 인정됩니다."}
+      ]},
+      {name:"전형 및 일정", items:[
+        {q:"전형 기간과 상세 일정은 어떻게 되나요?", a:"3월 중 지원서 접수를 시작으로, 3월 말 직무적합성평가, 4월 GSAT, 5월 면접, 6월 건강검진을 거쳐 7월 입사 예정입니다. 세부 일정은 변동될 수 있습니다."},
+        {q:"직무적합성평가는 무엇을 평가하나요?", a:"지원자님이 작성해 주신 지원서를 바탕으로 직무적합성을 종합적으로 평가합니다. 이수 과목과 성적, 지원 동기와 성장배경 등의 에세이를 세밀하게 검토합니다."},
+        {q:"면접은 어떻게 진행되나요?", a:"임원 면접과 직무 역량 면접, 총 2개를 하루에 모두 보는 '원데이 면접'으로 진행됩니다. 면접 방식은 다대일 형식입니다."},
+        {q:"전형별 결과 확인은 어디서 하나요?", a:"전형별 결과는 삼성커리어스 홈페이지(www.samsungcareers.com)에서 개별적으로 확인 가능합니다."}
+      ]}
+    ]
+  },
+  gift: {
+    desc: "삼성생명 리크루터와 오프라인에서 상담받고\n상담카드 작성해주시면\n스타벅스 5천원권과 캐릭터 볼펜 / 메모패드를 드립니다.",
+    btnText: "상담카드 작성하기",
+    url: "https://www.careertalk.kr/event-pin/8538984",
+    items: [{name:"스타벅스 5천원권"},{name:"캐릭터 볼펜"},{name:"캐릭터 메모패드"}]
+  },
+  jobPopups: [
+    {name:"영업관리", tags:"#업계선도 #영업전략",
+     desc:"영업관리 직군은 고객의 니즈에 맞게 개발된 보험 상품이 다양한 채널을 통해 판매될 수 있도록 지원하는 업무를 담당합니다.",
+     duties:[
+       {title:"지점장", desc:"지점의 성과 창출을 위해 컨설턴트 활동을 지원하고 영업전략 수립을 통한 지점운영을 총괄"},
+       {title:"FP/FO", desc:"부유층 공략 플랫폼을 통한 전문적 재무/세무 컨설팅을 활용하여 VIP마케팅 및 고액계약체결 지원"},
+       {title:"법인RM", desc:"퇴직연금, 단체보험 등의 판매와 보유계약 관련 보전 업무 대응을 위한 B2B 영업"},
+       {title:"방카BM", desc:"은행 등 제휴 금융기관을 관리하는 책임자로서 시장과 조직의 영업 전략 수립"},
+       {title:"영업지원", desc:"인사·노무·총무·행사 등 영업을 위한 최적의 인프라를 구축하고 조직 목표 달성 지원"},
+       {title:"채널기획", desc:"다양한 상품 판매 채널(FC, GFC, GA, BA 등)에 대한 제도와 전략 기획"}
+     ]},
+    {name:"상품계리", tags:"#수리통계 #분석및예측",
+     desc:"보험회사의 건전성 및 보험금 지급 능력 확보를 위해 불확실한 미래를 합리적으로 예측, 분석 및 평가하는 업무를 담당합니다.",
+     duties:[
+       {title:"상품개발", desc:"상품 정책 수립, 시장조사 및 분석, 신상품 개발, 판매 성과분석"},
+       {title:"계리", desc:"책임준비금 산출 및 결산손익 분석, 현금흐름 가정산출 및 모델링"},
+       {title:"RM", desc:"상품 수익성 및 리스크 점검, 사차효율 관리, 전사 리스크 관리"}
+     ]},
+    {name:"자산운용", tags:"#자산규모 #안정성",
+     desc:"보험영업을 통해 들어온 자금을 속성에 맞게 투자/관리하는 업무를 담당합니다. 체계적이고 안정적인 자산운용을 추구합니다.",
+     duties:[
+       {title:"운용사업기획", desc:"중장기 운용업 성장 전략 수립, ALM 목표 및 자금/손익 관리, 글로벌 사업 추진"},
+       {title:"심사", desc:"신용리스크 분석 및 한도관리, 크레딧 포트폴리오 관리 및 활용"},
+       {title:"포트폴리오 매니저", desc:"포트폴리오 전략 및 운용 가이드라인 수립, 투자손익 및 유동성 관리, 신규투자 추진"}
+     ]},
+    {name:"투자자산관리", tags:"#자산이해 #회계지식",
+     desc:"삼성생명에서 투자하는 다양한 금융상품 자산에 대한 거래 결제, 회계처리, 사후관리 등 백오피스 전반의 지원 업무를 담당합니다.",
+     duties:[
+       {title:"투자지원", desc:"운용전략 수립 지원 및 전략 조정, 투자자금 결제 및 입출금 관리"},
+       {title:"투자컴플라이언스", desc:"금융정책 조사 및 분석, 금융당국 규제대응 및 인허가, 대외보고 및 공시"}
+     ]},
+    {name:"디지털", tags:"#AI #플랫폼 #혁신",
+     desc:"AI, 데이터, 플랫폼을 통해 고객에게는 더 나은 경험을, 회사에는 데이터 기반의 의사결정을 제공하여 비즈니스 모델을 혁신합니다.",
+     duties:[
+       {title:"기획", desc:"AI/디지털 경영 전략 기획, AI/디지털 과제 발굴 및 관리, 최신 기술 센싱·확보·검증"},
+       {title:"디지털 마케팅", desc:"고객행동 데이터 분석 및 경험 설계, 타겟 맞춤형 디지털 마케팅 수행"},
+       {title:"채널 운영", desc:"디지털 서비스 운영, 채널 데이터 분석을 통한 인사이트 도출"}
+     ]},
+    {name:"IT", tags:"#개발 #인프라운영 #보안",
+     desc:"영업 시스템과 사내 업무 시스템의 백엔드를 직접 개발하고, 업무 시스템을 안정적으로 운영하며, IT 인프라를 관리합니다.",
+     duties:[
+       {title:"개발", desc:"디지털 채널/시스템 설계 및 백엔드 개발, 퍼블리싱 및 웹 접근성 관리"},
+       {title:"인프라 운영", desc:"IT 인프라 운영 전략 수립, 운영 안정성 및 효율성 확보, 비상대응 절차 관리"},
+       {title:"IT 보안", desc:"보안정책 및 가이드라인 수립, 보안시스템 운영 및 관리, 정보보호 관리체계 운영"}
+     ]},
+    {name:"보험지원", tags:"#보험프로세스 #데이터분석 #심사",
+     desc:"보험 가입 단계부터 계약유지, 보험금 지급에 이르기까지 각 접점에서 관련 업무를 수행합니다.",
+     duties:[
+       {title:"보험계약 관리", desc:"보험거래 서비스 기획, 디지털 기반 보험거래 프로세스 기획 및 운영, 보유계약 분석 및 관리"},
+       {title:"보험지급 관리", desc:"보험금 심사 및 보험사기 징후 탐지, 일반 제지급 및 프로세스 관리, 고객 접점채널 업무처리 지원"}
+     ]}
+  ],
+  interviewPopups: [
+    {name:"영업관리", qaList:[
+      {q:"영업관리 직군은 어떤 일을 하나요?", a:"FP로 일하면서 고객의 자산을 체계적으로 관리하고 재무 설계, 상속 및 증여 컨설팅 등 종합적인 금융 솔루션을 제공합니다. 지점장은 컨설턴트들과 함께 영업 코칭 및 지점 운영 업무를 담당합니다."},
+      {q:"필요한 역량은 무엇인가요?", a:"전문적 금융 지식보다 더 중요한 것은 바로 관계입니다. 고객과의 신뢰를 구축하고 장기적인 관계를 형성하기 위해 친근한 접근 방식과 유연한 커뮤니케이션 능력이 필수적입니다."},
+      {q:"왜 삼성생명을 선택하셨나요?", a:"보험은 필수재라는 가치관을 가지게 되었고, 보험을 가장 잘하면서 동시에 안정적인 삼성생명에 지원하였습니다."}
+    ]},
+    {name:"상품계리", qaList:[
+      {q:"상품계리 직군은 어떤 일을 하나요?", a:"상품팀은 상품기획부터 개발, 시스템 반영까지 여러 업무를 담당합니다. 시장 상황 및 규제에 맞추어 상품 개발/개정안을 만들고 유관부서와 소통하며 구체적인 상품 방향성을 정합니다."},
+      {q:"필요한 역량은 무엇인가요?", a:"기본적인 수리감각이 필수적이며, 꼼꼼함과 커뮤니케이션 능력도 중요합니다."},
+      {q:"왜 삼성생명을 선택하셨나요?", a:"생명보험업계 1위인 삼성생명을 선택한 후 업무가 세분화되어 있다는 점이 가장 큰 장점이라고 느끼고 있습니다."}
+    ]},
+    {name:"자산운용", qaList:[
+      {q:"자산운용 직군은 어떤 일을 하나요?", a:"변액보험으로 유입된 자금을 운용하거나, 전략투자사업부에서 프로젝트 금융 운용 및 매크로 하우스뷰 관련 업무를 수행합니다."},
+      {q:"필요한 역량은 무엇인가요?", a:"경제와 금융 시장에 대한 관심이 중요하며, 다양한 금융 상품 관련 리스크와 가치를 분석해보는 것이 도움이 됩니다."},
+      {q:"왜 삼성생명을 선택하셨나요?", a:"국내 최대의 자산 규모를 가진 자산운용 하우스로서 다양한 자산군을 경험할 수 있다는 것이 가장 큰 장점입니다."}
+    ]},
+    {name:"투자자산관리", qaList:[
+      {q:"투자자산관리 직군은 어떤 일을 하나요?", a:"운용 부서에서 새로운 자산을 매입하면 해당 자산의 조건을 검증한 후 결제합니다. 이후 자산평가, 파생상품을 통한 위험회피 등에 문제가 없는지 지속적으로 점검합니다."},
+      {q:"자산운용과 투자자산관리의 차이는?", a:"자산운용직은 투자전략을 수립하고 포트폴리오를 구성하는 프론트 업무라면, 투자자산관리직은 거래 결제, 회계 처리, 사후 관리 등 백오피스 업무 전반을 담당합니다."}
+    ]},
+    {name:"디지털", qaList:[
+      {q:"디지털 직군은 어떤 일을 하나요?", a:"사내 모든 업무에서 디지털 활용력을 높일 수 있도록 전사 디지털 역량을 강화하는 데에 초점을 맞추고 있습니다. AI 기술을 보험 본업에 적용하며 다양한 업무를 개선하고 있습니다."},
+      {q:"주로 어떤 언어나 툴을 사용하나요?", a:"사내 데이터 추출은 SQL 문 기반 프로그램을 사용하며, AI 서비스 개발이나 데이터 분석에는 파이썬을 사용합니다."}
+    ]},
+    {name:"IT", qaList:[
+      {q:"IT 직군은 어떤 일을 하나요?", a:"IT기획, PMO, IT품질관리, IT아키텍트, IT인프라운영, IT보안, 정보보호까지 다양한 직무가 있습니다."},
+      {q:"개발 직무 기술 스택은?", a:"프론트엔드는 Vue.js, 백엔드는 Spring 프레임워크를 사용합니다. DB 관련 업무는 SQL, 버전 관리는 GitLab을 활용합니다."}
+    ]},
+    {name:"보험지원", qaList:[
+      {q:"보험지원 직군은 어떤 일을 하나요?", a:"보험계약의 생성부터 소멸까지의 전 단계를 관리합니다. 신계약 심사, 보험금 심사, 인수기준 수립, 사기조사 등 다양한 업무를 수행합니다."},
+      {q:"필요한 역량은 무엇인가요?", a:"커뮤니케이션 능력이 특히 중요하며, 보건·의학 지식이나 수학·통계 관련 전공도 도움이 됩니다."}
+    ]}
+  ]
+};
+
+function getSiteData() {
+  try {
+    const saved = localStorage.getItem('samsungRecruitData');
+    return saved ? JSON.parse(saved) : SITE_DATA_DEFAULT;
+  } catch(e) {
+    return SITE_DATA_DEFAULT;
+  }
+}
+
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#1a2744;--blue:#0052a3;--gold:#c5a14e;--bg:#f8f9fb}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans KR',sans-serif;color:#222;background:var(--bg);overflow-x:hidden}
+
+#gnav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(26,39,68,.96);backdrop-filter:blur(10px)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:60px}
+.nav-logo{color:#fff;font-size:14px;font-weight:700}
+.nav-links{display:flex;gap:2px;align-items:center}
+.nav-links a{color:rgba(255,255,255,.8);text-decoration:none;font-size:13px;padding:6px 11px;border-radius:4px;transition:.2s}
+.nav-links a:hover{background:rgba(255,255,255,.1);color:#fff}
+.nav-links a.cta{background:var(--gold);color:#fff;font-weight:600}
+.nav-links a.cta:hover{background:#b8943e}
+.burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
+.burger span{width:22px;height:2px;background:#fff;border-radius:2px}
+.mmenu{display:none;position:fixed;top:60px;left:0;right:0;background:rgba(26,39,68,.98);padding:12px;z-index:999}
+.mmenu a{display:block;color:#fff;text-decoration:none;padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.1);font-size:14px}
+.mmenu.open{display:block}
+
+#hero{min-height:100vh;background:linear-gradient(135deg,#0a1628 0%,#1a2744 40%,#0d3060 70%,#091428 100%);display:flex;align-items:center;justify-content:center;padding:100px 28px 80px;position:relative;overflow:hidden;text-align:center}
+#hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:80px;background:linear-gradient(to top,var(--bg),transparent)}
+.dots{position:absolute;inset:0;opacity:.35;background-image:radial-gradient(circle,rgba(255,255,255,.4) 1px,transparent 1px);background-size:44px 44px}
+.hero-c{position:relative;z-index:1;max-width:800px}
+.hero-slogan{color:rgba(197,161,78,.9);font-size:15px;letter-spacing:2px;margin-bottom:20px;opacity:0;animation:fu .8s .2s forwards}
+.hero-title{color:#fff;font-size:clamp(26px,5vw,50px);font-weight:900;line-height:1.15;letter-spacing:-1px;margin-bottom:14px;opacity:0;animation:fu .8s .4s forwards}
+.hero-period{color:rgba(255,255,255,.7);font-size:16px;margin-bottom:40px;opacity:0;animation:fu .8s .6s forwards}
+.hero-cta{display:inline-block;background:linear-gradient(135deg,var(--gold),#e0b95e);color:#fff;text-decoration:none;padding:15px 38px;border-radius:50px;font-size:17px;font-weight:700;box-shadow:0 8px 28px rgba(197,161,78,.4);transition:.3s;opacity:0;animation:fu .8s .8s forwards}
+.hero-cta:hover{transform:translateY(-3px);box-shadow:0 12px 36px rgba(197,161,78,.5)}
+@keyframes fu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+#info{background:#fff;padding:56px 28px}
+.info-box{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));border:1px solid #e0e0e0;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.06)}
+.info-col{padding:28px;border-right:1px solid #e0e0e0}
+.info-col:last-child{border-right:none}
+.info-lbl{font-size:11px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid var(--gold)}
+.info-val{font-size:13px;color:#444;line-height:1.85}
+.ibtn{display:inline-block;background:var(--navy);color:#fff;text-decoration:none;padding:8px 16px;border-radius:6px;font-size:12px;font-weight:600;margin-top:10px;transition:.2s}
+.ibtn:hover{background:var(--blue)}
+
+#process{background:var(--navy);padding:56px 28px}
+.w{max-width:1200px;margin:0 auto}
+.sub{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+.ttl{font-size:clamp(22px,4vw,34px);font-weight:900;letter-spacing:-.5px;line-height:1.2;margin-bottom:36px}
+.steps{display:flex;align-items:center;justify-content:center;flex-wrap:wrap}
+.step{text-align:center;color:#fff;padding:18px 10px;flex:1;min-width:100px;position:relative}
+.step::after{content:'›';position:absolute;right:0;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.25);font-size:22px}
+.step:last-child::after{display:none}
+.sn{width:42px;height:42px;background:rgba(255,255,255,.08);border:2px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--gold);margin:0 auto 9px}
+.st{font-size:12px;color:rgba(255,255,255,.85);line-height:1.5}
+
+#jobs{padding:72px 28px;background:#fff}
+.sh{margin-bottom:40px}
+.jobs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+.jcard{background:#f8f9fb;border:1px solid #e8e8e8;border-radius:12px;padding:26px;transition:.3s}
+.jcard:hover{box-shadow:0 8px 28px rgba(0,0,0,.1);transform:translateY(-4px)}
+.jname{font-size:18px;font-weight:800;color:var(--navy);margin-bottom:14px}
+.jbtns{display:flex;flex-direction:column;gap:7px}
+.jbtn{display:flex;align-items:center;gap:7px;padding:9px 13px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;border:1.5px solid;transition:.2s;text-decoration:none;background:transparent;width:100%;text-align:left;font-family:inherit}
+.jbtn.d{color:var(--navy);border-color:#ccd5e0}.jbtn.d:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
+.jbtn.i{color:#555;border-color:#e0e0e0}.jbtn.i:hover{background:#eee}
+.jbtn.v{color:var(--blue);border-color:#c0d8f0}.jbtn.v:hover{background:var(--blue);color:#fff}
+
+#campus{padding:72px 28px;background:linear-gradient(135deg,#f0f4f8,#e8eef5)}
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px}
+.cgroup{background:#fff;border-radius:12px;padding:26px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.dbadge{display:inline-block;background:var(--navy);color:#fff;padding:5px 14px;border-radius:6px;font-size:15px;font-weight:700;margin-bottom:14px}
+.crow{padding:11px 0;border-bottom:1px solid #f0f0f0;display:flex;justify-content:space-between;align-items:flex-start}
+.crow:last-child{border-bottom:none}
+.cs{font-size:14px;font-weight:700;color:var(--navy)}
+.cl{font-size:12px;color:#666;margin-top:2px}
+.ct{font-size:13px;color:var(--gold);font-weight:600;white-space:nowrap;padding-left:10px}
+.notice{background:#fff9e6;border:1px solid #e8d08a;border-radius:8px;padding:14px 18px;font-size:13px;color:#555;margin-bottom:16px}
+.abtn{display:inline-block;background:var(--navy);color:#fff;text-decoration:none;padding:12px 28px;border-radius:8px;font-size:14px;font-weight:700;transition:.2s}
+.abtn:hover{background:var(--blue)}
+.abtn.gold{background:var(--gold)}.abtn.gold:hover{background:#b8943e}
+
+#offline{padding:72px 28px;background:#fff}
+.oweek{margin-bottom:32px}
+.whdr{background:var(--navy);color:#fff;padding:9px 18px;border-radius:7px;font-size:13px;font-weight:700;display:inline-block;margin-bottom:12px}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:9px}
+.scard{background:#f8f9fb;border:1px solid #e8e8e8;border-radius:7px;padding:13px}
+.sname{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:3px}
+.sloc{font-size:11px;color:#666;line-height:1.4}
+
+#online{padding:72px 28px;background:linear-gradient(135deg,var(--navy),#0d3060);text-align:center;position:relative;overflow:hidden}
+#online::before{content:'★';position:absolute;top:20px;right:9%;font-size:80px;color:rgba(255,255,255,.04)}
+.oin{max-width:660px;margin:0 auto;position:relative;z-index:1}
+.odesc{color:rgba(255,255,255,.75);font-size:14px;line-height:1.9;margin-bottom:18px}
+.odate{display:inline-block;background:rgba(255,255,255,.1);color:#fff;padding:11px 26px;border-radius:8px;font-size:17px;font-weight:700;margin-bottom:26px;border:1px solid rgba(255,255,255,.2)}
+.obtn{display:inline-block;background:var(--gold);color:#fff;text-decoration:none;padding:13px 34px;border-radius:50px;font-size:15px;font-weight:700;transition:.3s;box-shadow:0 6px 22px rgba(0,0,0,.3)}
+.obtn:hover{transform:translateY(-3px)}
+
+#kakao{padding:72px 28px;background:var(--bg)}
+.kcard{background:#fff;border-radius:14px;padding:34px;max-width:660px;margin:0 auto;box-shadow:0 4px 24px rgba(0,0,0,.08)}
+.kdesc{font-size:14px;color:#555;line-height:1.8;margin-bottom:14px}
+.kdate{font-weight:700;color:var(--navy);font-size:14px;margin-bottom:14px}
+.ktable{width:100%;border-collapse:collapse;margin-bottom:22px}
+.ktable th{background:var(--navy);color:#fff;padding:11px 14px;font-size:13px;text-align:left}
+.ktable td{padding:11px 14px;border-bottom:1px solid #f0f0f0;font-size:13px}
+.ktable tr:last-child td{border-bottom:none}
+.ktable td:first-child{font-weight:600;color:var(--navy);white-space:nowrap}
+.kbtn{display:inline-block;background:#FEE500;color:#000;text-decoration:none;padding:12px 28px;border-radius:8px;font-size:14px;font-weight:700}
+.kbtn:hover{background:#f0d800}
+
+#business{padding:72px 28px;background:#fff}
+.bgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:22px}
+.bcard{border-radius:12px;overflow:hidden;box-shadow:0 2px 14px rgba(0,0,0,.07);transition:.3s}
+.bcard:hover{box-shadow:0 8px 28px rgba(0,0,0,.12);transform:translateY(-4px)}
+.bcard img{width:100%;height:170px;object-fit:cover}
+.bbody{padding:18px}
+.btitle{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:7px}
+.bdesc{font-size:13px;color:#666;line-height:1.7}
+
+#welfare{padding:72px 28px;background:#f0f4f8}
+.wimg{text-align:center;margin-bottom:36px}
+.wimg img{max-width:100%;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.08)}
+.wcats{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px;margin-bottom:28px}
+.wcat{background:#fff;border-radius:10px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.wcname{font-size:13px;font-weight:800;color:var(--navy);margin-bottom:10px}
+.wctags{display:flex;flex-wrap:wrap;gap:5px}
+.wctag{font-size:11px;color:#555;padding:3px 9px;background:#f0f4ff;border-radius:20px}
+
+#culture{padding:72px 28px;background:#fff;text-align:center}
+#culture img{max-width:100%;border-radius:12px}
+
+#videos{padding:72px 28px;background:var(--navy)}
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
+.vcard{border-radius:11px;overflow:hidden;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);transition:.3s}
+.vcard:hover{transform:translateY(-4px);background:rgba(255,255,255,.1)}
+.vcard a{display:block;text-decoration:none}
+.vcard img{width:100%;height:150px;object-fit:cover}
+.vtitle{padding:13px 14px;font-size:13px;font-weight:700;color:#fff}
+
+#faq{padding:72px 28px;background:var(--bg)}
+.ftabs{display:flex;gap:7px;margin-bottom:22px;flex-wrap:wrap}
+.ftab{padding:7px 18px;border:1.5px solid #d0d0d0;border-radius:20px;cursor:pointer;font-size:13px;background:#fff;color:#555;transition:.2s;font-weight:500}
+.ftab.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.fpane{display:none}.fpane.active{display:block}
+.fitem{background:#fff;border-radius:7px;margin-bottom:7px;border:1px solid #e8e8e8;overflow:hidden}
+.fq{padding:14px 18px;font-size:14px;font-weight:600;color:var(--navy);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:.2s}
+.fq:hover{background:#f5f7ff}
+.fq::after{content:'▼';font-size:11px;color:#999;transition:.3s;flex-shrink:0;margin-left:8px}
+.fitem.open .fq::after{transform:rotate(180deg)}
+.fa{padding:0 18px;max-height:0;overflow:hidden;transition:.35s;font-size:13px;color:#555;line-height:1.8}
+.fitem.open .fa{max-height:400px;padding:13px 18px}
+.fcontact{text-align:center;margin-top:24px;padding:18px;background:#fff;border-radius:8px;border:1px solid #e8e8e8;font-size:14px;color:#555}
+.fcontact a{color:var(--blue);font-weight:600}
+
+#gift{padding:72px 28px;background:linear-gradient(135deg,var(--navy),#0d3060);text-align:center}
+.gdesc{color:rgba(255,255,255,.85);font-size:15px;line-height:1.9;margin-bottom:24px}
+.gitems{display:flex;justify-content:center;gap:14px;margin:14px 0 26px;flex-wrap:wrap}
+.gitem{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:16px 20px;color:#fff;font-size:13px;font-weight:600}
+.gbtn{display:inline-block;background:var(--gold);color:#fff;text-decoration:none;padding:14px 38px;border-radius:50px;font-size:15px;font-weight:700;transition:.3s;box-shadow:0 6px 22px rgba(0,0,0,.3)}
+.gbtn:hover{transform:translateY(-3px);background:#b8943e}
+
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:2000;display:none;align-items:flex-start;justify-content:center;padding:30px 16px;overflow-y:auto}
+.overlay.open{display:flex}
+.popup{background:#fff;border-radius:14px;max-width:780px;width:100%;margin:auto}
+.phdr{position:sticky;top:0;background:#fff;padding:18px 24px 12px;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;justify-content:space-between;border-radius:14px 14px 0 0}
+.phtitle{font-size:16px;font-weight:800;color:var(--navy)}
+.pclose{background:none;border:none;font-size:22px;cursor:pointer;color:#aaa;line-height:1}
+.pclose:hover{color:#333}
+.pbody{padding:22px 24px}
+.ptabs{display:flex;gap:5px;margin-bottom:20px;flex-wrap:wrap}
+.ptab{padding:6px 14px;border:1px solid #ddd;border-radius:20px;cursor:pointer;font-size:13px;background:#fff;color:#666;transition:.2s}
+.ptab.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.ppane{display:none}.ppane.active{display:block}
+.ptags{color:var(--gold);font-size:13px;font-weight:600;margin-bottom:9px}
+.pdesc{color:#555;font-size:14px;line-height:1.9;margin-bottom:18px}
+.duties{display:flex;flex-direction:column;gap:9px}
+.duty{background:#f8f9fb;border-left:3px solid var(--navy);padding:11px 14px;border-radius:0 7px 7px 0}
+.dtitle{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:2px}
+.ddesc{font-size:12px;color:#666;line-height:1.6}
+.iqa{margin-bottom:16px}
+.iq{font-size:14px;font-weight:700;color:var(--navy);padding:11px 14px;background:#f0f4ff;border-left:3px solid var(--navy);border-radius:6px 6px 0 0}
+.ia{font-size:13px;color:#555;line-height:1.8;padding:11px 14px;background:#fafbfc;border:1px solid #e8e8e8;border-top:none;border-radius:0 0 6px 6px}
+
+.tc{text-align:center}
+.gold{color:var(--gold)}
+.navy{color:var(--navy)}
+.white{color:#fff}
+@media(max-width:768px){
+  .nav-links{display:none}.burger{display:flex}
+  .cgrid,.bgrid,.jobs-grid,.wcats,.vgrid{grid-template-columns:1fr}
+  .info-box{grid-template-columns:1fr}
+  .info-col{border-right:none;border-bottom:1px solid #e0e0e0}
+  .info-col:last-child{border-bottom:none}
+  .sgrid{grid-template-columns:1fr 1fr}
+  .steps{gap:2px}.step::after{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav id="gnav">
+  <div class="nav-inner">
+    <div class="nav-logo">삼성생명 채용</div>
+    <div class="nav-links" id="nav-links"></div>
+    <div class="burger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  </div>
+  <div class="mmenu" id="mmenu"></div>
+</nav>
+
+<section id="hero">
+  <div class="dots"></div>
+  <div class="hero-c">
+    <div class="hero-slogan" id="h-slogan"></div>
+    <h1 class="hero-title" id="h-title"></h1>
+    <div class="hero-period" id="h-period"></div>
+    <a href="#" class="hero-cta" id="h-cta" target="_blank"></a>
+  </div>
+</section>
+
+<section id="info"><div class="info-box" id="info-cols"></div></section>
+
+<section id="process">
+  <div class="w">
+    <div class="sub white" style="opacity:.8">채용 전형</div>
+    <div class="ttl white">채용전형 안내</div>
+    <div class="steps" id="steps"></div>
+  </div>
+</section>
+
+<section id="jobs">
+  <div class="w">
+    <div class="sh">
+      <div class="sub gold">직군 안내</div>
+      <div class="ttl navy">직군 소개</div>
+    </div>
+    <div class="jobs-grid" id="jgrid"></div>
+  </div>
+</section>
+
+<section id="campus">
+  <div class="w">
+    <div class="sh tc">
+      <div class="sub gold" id="c-sub"></div>
+      <div class="ttl navy" id="c-title"></div>
+    </div>
+    <div class="cgrid" id="cgrid"></div>
+    <div class="notice" id="c-notice"></div>
+    <div class="tc"><a href="#" class="abtn" id="c-btn" target="_blank">찾아가는 캠퍼스 설명회 신청하기</a></div>
+  </div>
+</section>
+
+<section id="offline">
+  <div class="w">
+    <div class="sh">
+      <div class="sub gold" id="o-sub"></div>
+      <div class="ttl navy" id="o-title"></div>
+    </div>
+    <div id="oweeks"></div>
+  </div>
+</section>
+
+<section id="online">
+  <div class="oin w">
+    <div class="sub" id="on-sub" style="color:rgba(197,161,78,.9)"></div>
+    <div class="ttl white" id="on-title" style="margin-bottom:18px"></div>
+    <div class="odesc" id="on-desc"></div>
+    <div class="odate" id="on-date"></div><br><br>
+    <a href="#" class="obtn" id="on-btn" target="_blank"></a>
+  </div>
+</section>
+
+<section id="kakao">
+  <div class="w tc">
+    <div class="sh tc">
+      <div class="sub gold" id="k-sub"></div>
+      <div class="ttl navy" id="k-title"></div>
+    </div>
+    <div class="kcard">
+      <div class="kdesc" id="k-desc"></div>
+      <div class="kdate">일시 : <span id="k-date"></span></div>
+      <table class="ktable"><thead><tr><th>시간</th><th>직무</th></tr></thead><tbody id="k-tbody"></tbody></table>
+      <a href="#" class="kbtn" id="k-btn" target="_blank">채용상담회 신청하기</a>
+    </div>
+  </div>
+</section>
+
+<section id="business">
+  <div class="w">
+    <div class="sh">
+      <div class="sub gold">주요 사업</div>
+      <div class="ttl navy">삼성생명 주요 비즈니스</div>
+    </div>
+    <div class="bgrid" id="bgrid"></div>
+  </div>
+</section>
+
+<section id="welfare">
+  <div class="w">
+    <div class="sh tc"><div class="sub gold">복리후생</div><div class="ttl navy">복리후생</div></div>
+    <div class="wimg"><img id="w-img" src="" alt="복리후생"></div>
+    <div class="sh tc" style="margin-top:44px"><div class="ttl navy">성장지원</div></div>
+    <div class="wcats" id="wcats"></div>
+    <div class="tc"><a href="#" class="abtn" id="w-review" target="_blank">생생후기 보러가기</a></div>
+  </div>
+</section>
+
+<section id="culture">
+  <div class="w">
+    <div class="sh tc"><div class="sub gold">조직문화</div><div class="ttl navy">조직문화</div></div>
+    <img id="cu-img" src="" alt="조직문화" style="max-width:100%;border-radius:12px">
+  </div>
+</section>
+
+<section id="videos">
+  <div class="w">
+    <div class="sh">
+      <div class="sub" style="color:rgba(197,161,78,.9)">더 알아보기</div>
+      <div class="ttl white">더 많은 이야기가 궁금하다면?!</div>
+    </div>
+    <div class="vgrid" id="vgrid"></div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="w">
+    <div class="sh"><div class="sub gold">FAQ</div><div class="ttl navy">자주 묻는 질문</div></div>
+    <div class="ftabs" id="ftabs"></div>
+    <div id="fpanes"></div>
+    <div class="fcontact">궁금증이 해결되지 않는다면 <a id="femail" href="#">이메일</a>로 문의 남겨주세요.</div>
+  </div>
+</section>
+
+<section id="gift">
+  <div class="w">
+    <div class="sh tc">
+      <div class="sub" style="color:rgba(197,161,78,.9)">이벤트</div>
+      <div class="ttl white" style="margin-bottom:18px">상담 카드를 작성해주세요!</div>
+    </div>
+    <div class="gdesc" id="g-desc"></div>
+    <div class="gitems" id="g-items"></div>
+    <a href="#" class="gbtn" id="g-btn" target="_blank"></a>
+  </div>
+</section>
+
+<!-- JOB DETAIL POPUP -->
+<div class="overlay" id="jp-ov" onclick="closeOv(event,'jp-ov')">
+  <div class="popup" onclick="event.stopPropagation()">
+    <div class="phdr"><div class="phtitle">📁 직군 상세</div><button class="pclose" onclick="closeP('jp-ov')">✕</button></div>
+    <div class="pbody"><div class="ptabs" id="jp-tabs"></div><div id="jp-panes"></div></div>
+  </div>
+</div>
+
+<!-- INTERVIEW POPUP -->
+<div class="overlay" id="iv-ov" onclick="closeOv(event,'iv-ov')">
+  <div class="popup" onclick="event.stopPropagation()">
+    <div class="phdr"><div class="phtitle">🖊️ 직무인터뷰</div><button class="pclose" onclick="closeP('iv-ov')">✕</button></div>
+    <div class="pbody"><div class="ptabs" id="iv-tabs"></div><div id="iv-panes"></div></div>
+  </div>
+</div>
+
+<script>
+function toggleMenu(){document.getElementById('mmenu').classList.toggle('open')}
+function closeP(id){document.getElementById(id).classList.remove('open');document.body.style.overflow=''}
+function closeOv(e,id){if(e.target===document.getElementById(id))closeP(id)}
+function openP(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden'}
+
+function switchTab(prefix,i){
+  document.querySelectorAll('#'+prefix+'-tabs .ptab').forEach((t,j)=>t.classList.toggle('active',j===i));
+  document.querySelectorAll('#'+prefix+'-panes .ppane').forEach((p,j)=>p.classList.toggle('active',j===i));
+}
+function switchFaq(i){
+  document.querySelectorAll('#ftabs .ftab').forEach((t,j)=>t.classList.toggle('active',j===i));
+  document.querySelectorAll('#fpanes .fpane').forEach((p,j)=>p.classList.toggle('active',j===i));
+}
+function toggleFaq(el){el.closest('.fitem').classList.toggle('open')}
+
+function nl(s){return(s||'').replace(/\n/g,'<br>')}
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+function render(){
+  const D=getSiteData();
+
+  // NAV
+  const nl_=D.nav||[];
+  document.getElementById('nav-links').innerHTML=nl_.map(n=>`<a href="${esc(n.url)}" class="${n.isCta?'cta':''}" ${(n.url||'').startsWith('http')?'target="_blank"':''}>${esc(n.name)}</a>`).join('');
+  document.getElementById('mmenu').innerHTML=nl_.map(n=>`<a href="${esc(n.url)}" ${(n.url||'').startsWith('http')?'target="_blank"':''}>${esc(n.name)}</a>`).join('');
+
+  // HERO
+  const h=D.hero||{};
+  document.getElementById('h-slogan').textContent=h.slogan||'';
+  document.getElementById('h-title').textContent=h.title||'';
+  document.getElementById('h-period').textContent=h.period||'';
+  const cta=document.getElementById('h-cta');
+  cta.textContent=h.btnText||''; cta.href=h.btnUrl||'#';
+
+  // INFO
+  const inf=D.info||{};
+  document.getElementById('info-cols').innerHTML=`
+    <div class="info-col"><div class="info-lbl">주요 직군</div><div class="info-val">${nl(inf.jobs)}</div></div>
+    <div class="info-col"><div class="info-lbl">지원 자격</div><div class="info-val">${nl(inf.qual)}</div></div>
+    <div class="info-col"><div class="info-lbl">지원 방법</div><div class="info-val">${nl(inf.method)}<br><a href="${esc(inf.applyUrl||'#')}" class="ibtn" target="_blank">지원하기</a></div></div>`;
+
+  // PROCESS
+  document.getElementById('steps').innerHTML=(D.process||[]).map((s,i)=>`
+    <div class="step"><div class="sn">${i+1}</div><div class="st">${nl(s)}</div></div>`).join('');
+
+  // JOBS
+  const jobs=D.jobs||[];
+  document.getElementById('jgrid').innerHTML=jobs.map((j,i)=>`
+    <div class="jcard">
+      <div class="jname">${esc(j.name)}</div>
+      <div class="jbtns">
+        <button class="jbtn d" onclick="openJobP(${i})">📁 직군 상세</button>
+        <button class="jbtn i" onclick="openIvP(${i})">🖊️ 직무인터뷰</button>
+        ${j.videoUrl?`<a href="${esc(j.videoUrl)}" class="jbtn v" target="_blank">▶ 영상 보러가기</a>`:''}
+      </div>
+    </div>`).join('');
+
+  // JOB POPUPS
+  const jps=D.jobPopups||[];
+  document.getElementById('jp-tabs').innerHTML=jps.map((j,i)=>`<div class="ptab${i===0?' active':''}" onclick="switchTab('jp',${i})">${esc(j.name)}</div>`).join('');
+  document.getElementById('jp-panes').innerHTML=jps.map((j,i)=>`
+    <div class="ppane${i===0?' active':''}">
+      <div class="ptags">${esc(j.tags||'')}</div>
+      <div class="pdesc">${esc(j.desc||'')}</div>
+      <div class="duties">${(j.duties||[]).map(d=>`<div class="duty"><div class="dtitle">${esc(d.title)}</div><div class="ddesc">${esc(d.desc)}</div></div>`).join('')}</div>
+    </div>`).join('');
+
+  // INTERVIEW POPUPS
+  const ivs=D.interviewPopups||[];
+  document.getElementById('iv-tabs').innerHTML=ivs.map((v,i)=>`<div class="ptab${i===0?' active':''}" onclick="switchTab('iv',${i})">${esc(v.name)}</div>`).join('');
+  document.getElementById('iv-panes').innerHTML=ivs.map((v,i)=>`
+    <div class="ppane${i===0?' active':''}">
+      ${(v.qaList||[]).map(qa=>`<div class="iqa"><div class="iq">${esc(qa.q)}</div><div class="ia">${esc(qa.a)}</div></div>`).join('')}
+    </div>`).join('');
+
+  // CAMPUS
+  const ca=D.campus||{};
+  document.getElementById('c-sub').textContent=ca.subtitle||'';
+  document.getElementById('c-title').textContent=ca.title||'';
+  document.getElementById('cgrid').innerHTML=(ca.events||[]).map(ev=>`
+    <div class="cgroup">
+      <div class="dbadge">${esc(ev.date)}</div>
+      ${(ev.items||[]).map(it=>`<div class="crow"><div><div class="cs">${esc(it.school)}</div><div class="cl">${esc(it.location)}</div></div><div class="ct">${esc(it.time)}</div></div>`).join('')}
+    </div>`).join('');
+  document.getElementById('c-notice').innerHTML=`<strong>참석자 전원에게 맛있는 점심을 제공합니다</strong><br><br><strong>신청 가능 대상 :</strong> ${esc(ca.target||'')}`;
+  document.getElementById('c-btn').href=ca.applyUrl||'#';
+
+  // OFFLINE
+  const of=D.offline||{};
+  document.getElementById('o-sub').textContent=of.subtitle||'';
+  document.getElementById('o-title').textContent=of.title||'';
+  document.getElementById('oweeks').innerHTML=(of.weeks||[]).map(wk=>`
+    <div class="oweek">
+      <div class="whdr">${esc(wk.dates)}</div>
+      <div class="sgrid">${(wk.schools||[]).map(s=>`<div class="scard"><div class="sname">${esc(s.name)}</div><div class="sloc">${esc(s.location)}</div></div>`).join('')}</div>
+    </div>`).join('');
+
+  // ONLINE
+  const on=D.online||{};
+  document.getElementById('on-sub').textContent=on.subtitle||'';
+  document.getElementById('on-title').textContent=on.title||'';
+  document.getElementById('on-desc').innerHTML=nl(on.desc||'');
+  document.getElementById('on-date').textContent=on.date||'';
+  const obtn=document.getElementById('on-btn'); obtn.textContent=on.btnText||''; obtn.href=on.url||'#';
+
+  // KAKAO
+  const ka=D.kakao||{};
+  document.getElementById('k-sub').textContent=ka.subtitle||'';
+  document.getElementById('k-title').textContent=ka.title||'';
+  document.getElementById('k-desc').textContent=ka.desc||'';
+  document.getElementById('k-date').textContent=ka.date||'';
+  document.getElementById('k-tbody').innerHTML=(ka.schedule||[]).map(s=>`<tr><td>${esc(s.time)}</td><td>${esc(s.jobs)}</td></tr>`).join('');
+  document.getElementById('k-btn').href=ka.url||'#';
+
+  // BUSINESS
+  document.getElementById('bgrid').innerHTML=(D.business||[]).map(b=>`
+    <div class="bcard">
+      <img src="${esc(b.imgUrl||'')}" alt="${esc(b.title||'')}">
+      <div class="bbody"><div class="btitle">${esc(b.title)}</div><div class="bdesc">${esc(b.desc)}</div></div>
+    </div>`).join('');
+
+  // WELFARE
+  const wf=D.welfare||{};
+  document.getElementById('w-img').src=wf.imgUrl||'';
+  document.getElementById('cu-img').src=wf.cultureImgUrl||'';
+  document.getElementById('w-review').href=wf.reviewUrl||'#';
+  document.getElementById('wcats').innerHTML=(wf.cats||[]).map(c=>`
+    <div class="wcat">
+      <div class="wcname">${esc(c.name)}</div>
+      <div class="wctags">${(c.items||'').split(',').map(t=>`<span class="wctag">${esc(t.trim())}</span>`).join('')}</div>
+    </div>`).join('');
+
+  // VIDEOS
+  document.getElementById('vgrid').innerHTML=(D.videos||[]).map(v=>`
+    <div class="vcard"><a href="${esc(v.url)}" target="_blank"><img src="${esc(v.thumb||'')}" alt="${esc(v.title||'')}"><div class="vtitle">${esc(v.title)}</div></a></div>`).join('');
+
+  // FAQ
+  const faq=D.faq||{};
+  document.getElementById('femail').href='mailto:'+esc(faq.email||'');
+  document.getElementById('femail').textContent=faq.email||'';
+  const cats=faq.categories||[];
+  document.getElementById('ftabs').innerHTML=cats.map((c,i)=>`<div class="ftab${i===0?' active':''}" onclick="switchFaq(${i})">${esc(c.name)}</div>`).join('');
+  document.getElementById('fpanes').innerHTML=cats.map((c,i)=>`
+    <div class="fpane${i===0?' active':''}">
+      ${(c.items||[]).map(it=>`<div class="fitem"><div class="fq" onclick="toggleFaq(this)">${esc(it.q)}</div><div class="fa">${esc(it.a)}</div></div>`).join('')}
+    </div>`).join('');
+
+  // GIFT
+  const gi=D.gift||{};
+  document.getElementById('g-desc').innerHTML=nl(gi.desc||'');
+  document.getElementById('g-items').innerHTML=(gi.items||[]).map(it=>`<div class="gitem">${esc(it.name)}</div>`).join('');
+  const gbtn=document.getElementById('g-btn'); gbtn.textContent=gi.btnText||''; gbtn.href=gi.url||'#';
+}
+
+let _jpIdx=0, _ivIdx=0;
+function openJobP(i){ _jpIdx=i; switchTab('jp',i); openP('jp-ov'); }
+function openIvP(i){ _ivIdx=i; switchTab('iv',i); openP('iv-ov'); }
+
+render();
+</script>
+</body>
+</html>
